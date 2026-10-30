@@ -1,4 +1,4 @@
-# ang.dev
+# Portfolio
 
 Personal portfolio of James Ang, Software Developer. A fully static site built with Next.js and deployed on Vercel.
 
