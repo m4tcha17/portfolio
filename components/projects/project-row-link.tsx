@@ -4,7 +4,7 @@ import type { MouseEvent, ReactNode } from "react";
 import { useRouter } from "next/navigation";
 
 /**
- * Makes a whole `/projects` row clickable without covering its text, so the text stays selectable.
+ * Makes a whole `/projects` row or home project card clickable without covering its text, so the text stays selectable.
  * A click that ends a text selection, or lands on a link/button inside the row, does not navigate.
  */
 export function ProjectRowLink({ href, className, children }: { href: string; className?: string; children: ReactNode }) {

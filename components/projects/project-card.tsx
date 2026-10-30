@@ -1,54 +1,70 @@
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowUpRightIcon } from "@phosphor-icons/react/ssr";
+import { ArrowRightIcon, GithubLogoIcon } from "@phosphor-icons/react/ssr";
 
 import type { Project } from "@/lib/projects";
 import { cn } from "@/lib/utils";
+import { buttonVariants } from "@/components/ui/button";
+import { TechStack } from "@/components/projects/tech-stack";
+import { ProjectRowLink } from "@/components/projects/project-row-link";
 
-/** Home Featured Projects bento tile. Shows `summary`, never the long description. */
-export function ProjectCard({
-  project,
-  large = false,
-  className,
-}: {
-  project: Project;
-  /** The big bento tile gets a larger title and image `sizes`. */
-  large?: boolean;
-  className?: string;
-}) {
+/**
+ * Home Featured Projects card. Shows `summary`, never the long description; everything is visible without hover.
+ * The whole card opens the detail page (ProjectRowLink) while its text stays selectable; the GitHub link goes to the repo only.
+ */
+export function ProjectCard({ project }: { project: Project }) {
+  const href = `/projects/${project.slug}`;
+
   return (
-    <Link
-      href={`/projects/${project.slug}`}
-      className={cn(
-        "group relative block h-full overflow-hidden rounded-lg bg-muted ring-1 ring-inset ring-foreground/10 outline-none focus-visible:ring-2 focus-visible:ring-ring",
-        className,
-      )}
+    <ProjectRowLink
+      href={href}
+      className="group flex h-full cursor-pointer flex-col overflow-hidden rounded-lg bg-card ring-1 ring-foreground/10 transition-shadow hover:ring-primary/40 has-[a[data-row-link]:focus-visible]:ring-2 has-[a[data-row-link]:focus-visible]:ring-ring"
     >
-      <Image
-        src={project.image}
-        alt={`${project.title} screenshot`}
-        fill
-        sizes={large ? "(min-width: 640px) 66vw, 100vw" : "(min-width: 640px) 33vw, 100vw"}
-        className="object-cover transition-transform duration-500 group-hover:scale-105 motion-reduce:transition-none motion-reduce:group-hover:scale-100"
-      />
-      {/* Progressive blur: softens image detail behind the text, fading out upward, so any screenshot stays readable. */}
-      <div aria-hidden className="pointer-events-none absolute inset-x-0 bottom-0 h-1/3 backdrop-blur-sm mask-t-from-40%" />
-      {/* Gradient scrim: fades the image under the text instead of a boxed band. */}
-      <div className="absolute inset-x-0 bottom-0 bg-linear-to-t from-scrim/70 via-scrim/40 via-50% to-transparent px-6 pt-10 pb-5 text-scrim-foreground">
-        <h3
-          className={cn(
-            "flex items-center gap-1.5 font-heading font-medium transition-colors duration-300 group-hover:text-primary-on-scrim group-focus-visible:text-primary-on-scrim",
-            large ? "text-2xl" : "text-lg",
-          )}
-        >
-          {project.title}
-          <ArrowUpRightIcon aria-hidden className="size-4 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 motion-reduce:transition-none motion-reduce:group-hover:translate-0" />
+      {/* Out of the tab order and hidden from screen readers: the title link already covers this destination. */}
+      <Link href={href} data-row-link tabIndex={-1} aria-hidden>
+        <Image
+          src={project.image}
+          alt={`${project.title} screenshot`}
+          width={640}
+          height={360}
+          sizes="(min-width: 1024px) 320px, (min-width: 640px) 50vw, 100vw"
+          className="aspect-video w-full bg-muted object-cover"
+        />
+      </Link>
+      <div className="flex flex-1 flex-col gap-3 p-5">
+        <h3 className="font-heading text-lg font-semibold tracking-tight text-foreground">
+          <Link
+            href={href}
+            data-row-link
+            className="outline-none transition-colors duration-300 group-hover:text-primary focus-visible:text-primary motion-reduce:transition-none"
+          >
+            {project.title}
+          </Link>
         </h3>
-        {/* Summary reveals on hover/focus; always visible on touch screens (no hover). */}
-        <div className="grid grid-rows-[0fr] opacity-0 transition-[grid-template-rows,opacity] duration-300 group-hover:grid-rows-[1fr] group-hover:opacity-100 group-focus-visible:grid-rows-[1fr] group-focus-visible:opacity-100 pointer-coarse:grid-rows-[1fr] pointer-coarse:opacity-100 motion-reduce:transition-none">
-          <p className="min-h-0 line-clamp-1 pt-1 text-sm">{project.summary}</p>
+        <p className="text-sm text-muted-foreground">{project.summary}</p>
+        <div className="mt-auto pt-2">
+          <TechStack tech={project.tech} />
+        </div>
+        <div className="flex items-center justify-between gap-3 border-t border-border pt-3">
+          <a
+            href={project.github}
+            target="_blank"
+            rel="noopener noreferrer"
+            className={cn(
+              buttonVariants({ variant: "ghost", size: "default" }),
+              "-ml-2 text-muted-foreground hover:bg-transparent hover:text-primary focus-visible:text-primary",
+            )}
+          >
+            <GithubLogoIcon data-icon="inline-start" aria-hidden />
+            GitHub
+          </a>
+          {/* Visual cue only: the card itself is the link. */}
+          <span aria-hidden className="inline-flex items-center gap-1 text-xs font-medium text-primary">
+            Details
+            <ArrowRightIcon className="size-3.5 transition-transform duration-300 group-hover:translate-x-0.5 motion-reduce:transition-none motion-reduce:group-hover:translate-x-0" />
+          </span>
         </div>
       </div>
-    </Link>
+    </ProjectRowLink>
   );
 }

@@ -6,7 +6,6 @@ import { site } from "@/content/site";
 import { stripHighlights } from "@/lib/highlight";
 import { SiteHeader } from "@/components/site/header";
 import { SiteFooter } from "@/components/site/footer";
-import { ThemeProvider } from "@/components/site/theme-provider";
 
 const publicSans = Public_Sans({subsets:['latin'],variable:'--font-sans'});
 
@@ -20,7 +19,7 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-const siteName = stripHighlights(site.siteName);
+const siteName = stripHighlights(site.name);
 
 export const metadata: Metadata = {
   title: {
@@ -34,19 +33,15 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     // Smooth scrolling for in-page anchors (#projects, #contact, back to top), off under prefers-reduced-motion.
     // data-scroll-behavior lets Next.js disable it during route navigations so page changes still jump to the top.
-    // suppressHydrationWarning: next-themes sets the theme class on <html> before hydration.
     <html
       lang="en"
-      suppressHydrationWarning
       data-scroll-behavior="smooth"
       className={cn("h-full", "antialiased", "motion-safe:scroll-smooth", geistSans.variable, geistMono.variable, "font-sans", publicSans.variable)}
     >
       <body className="min-h-full flex flex-col bg-background text-foreground">
-        <ThemeProvider>
-          <SiteHeader />
-          <main className="flex flex-1 flex-col">{children}</main>
-          <SiteFooter />
-        </ThemeProvider>
+        <SiteHeader />
+        <main className="flex flex-1 flex-col">{children}</main>
+        <SiteFooter />
       </body>
     </html>
   );

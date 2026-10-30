@@ -14,26 +14,25 @@
 - React 19
 - Tailwind CSS v4 + shadcn (`base-mira` style, Base UI primitives); theme tokens live in `app/globals.css`
 - Phosphor icons (`@phosphor-icons/react`)
-- `next-themes` for light/dark mode
 - MDX via `@next/mdx` for content
 - pnpm
 
 # Scope
 
-- **Home `/`**: single scrolling page with sections Hero, Skills Marquee, Featured Projects, Contact.
-- **First screen**: Hero and Skills Marquee together fill the viewport below the header; Featured Projects starts below the fold.
-- **Skills Marquee** (home, between Hero and Featured Projects): thin strip of `site.skills` scrolling horizontally (React Bits `LogoLoop`), static under `prefers-reduced-motion`.
-- **`/about`**: bookish layout (layout only, site fonts unchanged), three sections separated by ornament dividers:
-  - Intro: name (the page's h1), role · location line, ornament divider, profile photo (`public/profile.jpg`) beside the About bio from `content/about.mdx` (drop cap), then an epigraph quote.
-  - Skills: `site.skillGroups` in three categories (Languages, Libraries & Frameworks, Backend & Infrastructure), chips per group.
-  - What I'm doing now: `site.now` list of label + text items.
-  - Lattice Loader (React Bits `LatticeLoader`) left-aligned under the bio: "Thinking" briefly, then "Thought for Ns", as if the bio was just reasoned out.
-- **Featured Projects**: max 3 cards, selected by `featured: true` and sorted by `order`. Each card links to `/projects/[slug]`. A "More works" button links to `/projects`.
+Audience: recruiters. A visitor should judge fit in under a minute: who, what role, availability, skills, proof (projects, experience), résumé, contact. Minimal animation.
+
+- **Home `/`**: single scrolling overview page with sections Hero, Skills, Featured Projects, Experience & Education (`#experience`), Contact (`#contact`), separated by `SectionDivider`.
+- **First screen**: Hero and Skills together fill the viewport below the header; Featured Projects starts below the fold.
+- **Hero**: round profile photo (`public/profile.jpg`; right of the text from `sm`, above it on phones), name (the page's h1), role line, availability line (`site.availability`), 1–2 sentence value statement (`site.description`), buttons View projects (`#projects`), Résumé (`site.resume`, new tab) and Contact (`#contact`), plus small GitHub and LinkedIn icon links.
+- **Skills**: `site.skillGroups` in four categories (Languages, Libraries & Frameworks, Backend & Infrastructure, Environment & Tooling), static chips per group; 4 columns from `lg`, 2 from `sm`.
+- **Featured Projects** (`#projects`): max 3 cards, selected by `featured: true` and sorted by `order`, in an equal-width grid. Each card always shows image, title, `summary`, tech stack chips and a GitHub link (no hover-only content). The card links to `/projects/[slug]`; the GitHub link goes to the repo only. An "All projects" button links to `/projects`.
+- **Experience & Education**: vertical timeline of `site.experience` then `site.education`. Each item shows title, org, date range, location (if set) and bullets (if set). Then a Certifications & Awards grid (`site.achievements`, 2 columns from `sm`): icon by kind, title, issuer · date, and a credential link (if set). Each block is hidden when its list is empty.
 - **`/projects`**: one page listing all projects, one project per row. Each row shows image, title, long description (MDX body, 4–5 sentences max), tech stack chips, and a GitHub button. Each row links to `/projects/[slug]`; the GitHub button links to the repo only.
-- **`/projects/[slug]`**: one detail page per project showing image, title, summary, date (if set), tech stack, long description, a GitHub button, and a back link to `/projects`. Below the image, the long description sits beside a narrower side column (2:1) with the tech stack, "My contribution" (if set) and the GitHub button.
-- **Contact** (home, `#contact`): "Get in touch" heading, short text, and one button (destination TBD; temporary mailto).
-- **Footer**: copyright, mailto link, and social links. This is the only place email and socials appear.
-- **Theme**: light/dark toggle at the top-right of the header. First visit follows the system setting; the visitor's choice persists across reloads (`next-themes`, `.dark` class on `<html>`). Switching plays a circle reveal from the toggle (View Transitions API), instant under `prefers-reduced-motion` or without browser support.
+- **`/projects/[slug]`**: one in-depth page per project showing image, title, summary, date (if set), tech stack, long description, a GitHub button, and a back link to `/projects`. Below the image, the long description sits beside a narrower side column (2:1) with "My contribution" (if set), the tech stack and the GitHub button.
+- **Header**: centered nav Home (`/`, scrolls to top on the home page), Projects, Experience, Contact (home hash links), and a Résumé button at the top-right. No name or logo (the Hero has it). Below `sm` only the Résumé button shows.
+- **Contact**: "Get in touch" heading, one line of text, Email (mailto) and Résumé buttons.
+- **Footer**: copyright, mailto link, and social links. Socials appear only here and in the Hero.
+- **Theme**: light mode only, regardless of system setting. No theme toggle, no `.dark` styles.
 - **Out of scope**: blog, contact form, CMS, backend, metadata fields beyond those listed under Content.
 - Fully static site.
 
@@ -41,6 +40,7 @@
 
 1. **Base implementation** (phases 1–7): CLAUDE.md, MDX pipeline, layout shell, home sections, project metadata, `/projects` list, `/projects/[slug]` detail page. No animations in this stage.
 2. **Fine-tuning**: animations (React Bits) and layout/design adjusted to the user's exact preferences. Each change is proposed and approved before implementation.
+3. **Professional rework** (current): recruiter-focused layout, light mode only, `/about` removed (photo moved to the Hero). Animations stay minimal.
 
 # System Design
 
@@ -52,8 +52,8 @@
   - `/projects` rows: long description (MDX body) only.
   - `/projects/[slug]`: both `summary` and long description. `date` and `contribution` (bullet list) are shown only here.
 - `lib/projects.ts` holds the `ProjectMeta` type, `getProjects()` (reads `content/projects/` server-side, sorted by `order`), `getFeaturedProjects()` (featured, first 3) and `getProject(slug)`.
-- `content/site.ts`: typed profile data (name, role, location, tagline, email, socials, skills for the home marquee, and for `/about`: quote, skillGroups, now).
-- `content/about.mdx`: About bio.
+- `content/site.ts`: typed profile data (name, role, location, availability, resume, description, email, socials, skillGroups, experience, education, achievements). In the Hero strings, `[bracketed]` words render bold in the primary color (`Highlight`); plain-text uses (metadata, footer, alt text) strip the brackets with `stripHighlights`.
+- `public/resume.pdf`: résumé, linked from Hero, Header and Contact.
 - Project images live in `public/projects/<slug>.(png|webp)` and render with `next/image`.
 
 ## Structure
@@ -61,18 +61,16 @@
 ```
 app/
   layout.tsx            # metadata, SiteHeader, SiteFooter
-  page.tsx              # Hero, SkillsMarquee, FeaturedProjects, Contact
-  about/page.tsx        # About intro, AboutSkills, AboutNow
+  page.tsx              # Hero, Skills, FeaturedProjects, Experience, Contact
   projects/page.tsx     # all projects, one ProjectRow each
   projects/[slug]/page.tsx  # project detail page
 components/
   ui/                   # shadcn components
-  site/                 # header.tsx, nav-link.tsx, footer.tsx, section-divider.tsx, ornament-divider.tsx, home-link.tsx, theme-provider.tsx, theme-toggle.tsx
-  sections/             # hero.tsx, hero-replay.tsx, hero-terminal.tsx, about.tsx, about-thought.tsx, about-skills.tsx, about-now.tsx, skills-marquee.tsx, featured-projects.tsx, contact.tsx
-  projects/             # project-card.tsx, project-row.tsx, tech-stack.tsx
-  animations/           # React Bits components (logo-loop.tsx, lattice-loader.tsx)
-content/                # site.ts, about.mdx, projects/*.mdx
-lib/                    # utils.ts, projects.ts
+  site/                 # header.tsx, nav-link.tsx, footer.tsx, section-divider.tsx, social-icons.ts, highlight.tsx
+  sections/             # hero.tsx, skills.tsx, featured-projects.tsx, experience.tsx, contact.tsx
+  projects/             # project-card.tsx, project-row.tsx, project-row-link.tsx, tech-stack.tsx
+content/                # site.ts, projects/*.mdx
+lib/                    # utils.ts, projects.ts, highlight.ts
 mdx-components.tsx
 ```
 

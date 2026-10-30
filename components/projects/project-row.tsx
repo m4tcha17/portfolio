@@ -59,7 +59,7 @@ export function ProjectRow({ project, index }: { project: Project; index: number
             rel="noopener noreferrer"
             className={cn(
               buttonVariants({ variant: "ghost", size: "lg" }),
-              "hover:bg-transparent hover:text-primary focus-visible:text-primary dark:hover:bg-transparent",
+              "hover:bg-transparent hover:text-primary focus-visible:text-primary",
             )}
           >
             <GithubLogoIcon data-icon="inline-start"

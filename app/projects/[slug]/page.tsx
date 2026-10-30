@@ -11,7 +11,7 @@ import { TechStack } from "@/components/projects/tech-stack";
 
 export const instant = false;
 
-/** Side column headings, styled like the /about role · location line. */
+/** Side column headings: small uppercase tracked labels. */
 const sideHeading = "text-xs font-medium tracking-[0.2em] text-muted-foreground uppercase";
 
 // `dynamicParams` is unavailable with cacheComponents; unknown slugs hit notFound().
@@ -45,7 +45,7 @@ export default async function ProjectPage({ params }: PageProps<"/projects/[slug
         href="/projects"
         className={cn(
           buttonVariants({ variant: "ghost", size: "sm" }),
-          "-ml-2 hover:bg-transparent hover:text-primary focus-visible:text-primary dark:hover:bg-transparent",
+          "-ml-2 hover:bg-transparent hover:text-primary focus-visible:text-primary",
         )}
       >
         <ArrowLeftIcon
@@ -71,20 +71,13 @@ export default async function ProjectPage({ params }: PageProps<"/projects/[slug
         className="mt-10 aspect-video w-full rounded-lg bg-muted object-cover"
       />
 
-      {/* Description beside a narrower side column (2:1); stacked on phones, description first. */}
+      {/* Description beside a narrower side column (2:1); stacked on phones, description first. Contribution leads the column: it is what a recruiter looks for. */}
       <div className="mt-10 grid gap-10 md:grid-cols-[minmax(0,2fr)_minmax(0,1fr)]">
         <div>
           <Description />
         </div>
 
         <aside className="flex flex-col gap-8">
-          <div>
-            <h2 className={sideHeading}>Tech stack</h2>
-            <div className="mt-3">
-              <TechStack tech={project.tech} />
-            </div>
-          </div>
-
           {project.contribution && project.contribution.length > 0 && (
             <div>
               <h2 className={sideHeading}>My contribution</h2>
@@ -95,6 +88,13 @@ export default async function ProjectPage({ params }: PageProps<"/projects/[slug
               </ul>
             </div>
           )}
+
+          <div>
+            <h2 className={sideHeading}>Tech stack</h2>
+            <div className="mt-3">
+              <TechStack tech={project.tech} />
+            </div>
+          </div>
 
           <div>
             <a

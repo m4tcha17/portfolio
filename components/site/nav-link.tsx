@@ -9,14 +9,15 @@ import { cn } from "@/lib/utils";
 /**
  * Header nav link marked `aria-current="page"` while on its page or a page below it
  * (`/projects/[slug]` keeps Projects active). Hash links (`/#contact`) only scroll, so they never
- * count as the current page.
+ * count as the current page. `/` is active only on the home page itself.
  *
- * On the home page, a hash link scrolls to its section itself: next/link skips a navigation to the
- * URL already shown, so a second click on `/#contact` would otherwise do nothing.
+ * On the home page, a hash link scrolls to its section itself and `/` scrolls back to the top:
+ * next/link skips a navigation to the URL already shown, so a second click would otherwise do nothing.
  */
 export function NavLink({ href, className, onClick, ...props }: ComponentProps<typeof Link> & { href: string }) {
   const pathname = usePathname();
-  const active = !href.includes("#") && (pathname === href || pathname.startsWith(`${href}/`));
+  const isHome = href === "/";
+  const active = !href.includes("#") && (pathname === href || (!isHome && pathname.startsWith(`${href}/`)));
 
   return (
     <Link
@@ -24,11 +25,13 @@ export function NavLink({ href, className, onClick, ...props }: ComponentProps<t
       onClick={(event) => {
         onClick?.(event);
         const [path, hash] = href.split("#");
-        const section = hash && pathname === path ? document.getElementById(hash) : null;
-        if (event.defaultPrevented || !section) return;
+        if (event.defaultPrevented || pathname !== (path || "/")) return;
+        const section = hash ? document.getElementById(hash) : null;
+        if (!section && !isHome) return;
         event.preventDefault();
-        const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-        section.scrollIntoView({ behavior: reduce ? "auto" : "smooth" });
+        const behavior = window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth";
+        if (section) section.scrollIntoView({ behavior });
+        else window.scrollTo({ top: 0, behavior });
         // Keep Next's history state so back/forward still work.
         window.history.replaceState(window.history.state, "", href);
       }}
