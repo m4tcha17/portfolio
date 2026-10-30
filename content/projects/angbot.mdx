@@ -2,16 +2,21 @@ export const metadata = {
   title: "Angbot",
   summary: "TypeScript monorepo for a Discord AI bot, RAG dashboard, and Prisma-backed data stack.",
   image: "/images/angbot-v2.jpg",
-  tech: ["Next.js", "TypeScript", "Tailwind CSS"],
+  tech: ["Next.js", "TypeScript", "Tailwind CSS", "Discord.js", "Google Gemini", "Prisma", "MySQL", "RAG"],
   github: "https://github.com/devliqht/angbot",
   featured: true,
   order: 1,
   date: "2026",
   contribution: [
-    "Placeholder: what you built or owned",
-    "Placeholder: a key technical decision",
-    "Placeholder: your role on the team",
+    "Built core Discord bot functionality and mention-triggered responses.",
+    "Added per-channel conversation memory for more natural chat flow.",
+    "Implemented agent editing directly from Discord via slash commands and modals.",
+    "Improved long-form message handling by splitting responses while preserving markdown/code blocks.",
+    "Added documentation and reliability fixes for Discord bot behavior and agent binding.",
   ],
 }
 
-lorem ipsum dolor sit amet consectetur adipiscing elit soluta harum exercitation eu quod magna consequat tempore deserunt dolorem et facilis placeat consequatur cillum aliquip quos praesentium cupidatat imperdiet est quas eiusmod tempor est eum voluptas pariatur eiusmod facere tempore deleniti fuga veniam nulla qui dolore accusamus aute aliqua quo amet dolor maxime elit eligendi molestias iusto culpa imperdiet cumque ducimus minus provident ut harum minim nam maxime duis dolores atque nam ut irure culpa nulla dolor odio odio et provident nulla magna ea vero anim sint est ut repellendus sunt est in aliquip proident expedita quas anim dolor in commodo voluptas nam ut dolor quidem irure id sint similique quas aute ut consequatur blanditiis tempore culpa quas fuga sunt qui dolores deleniti quibusdam eiusmod expedita libero anim ea irure autem velit aliqua exercitation occaecat officia ut sint est ea est facere occaecat iusto laboris anim sint cum quibusdam officia cumque et nulla commodo aute et proident in incididunt occaecat voluptate mollitia ducimus lorem consectetur ut vel sint ut repellendus irure et esse pariatur cupidatat deleniti culpa dignissimos quo commodo laborum qui qui magna irure id qui in libero exercitation ea nulla atque ad et nostrud nulla dolores aute aute pariatur atque nihil est enim vero aliquip vel anim dolor et dolores cumque nulla aliqua consequat quos eu commodo sunt et incididunt ut in lorem consectetur rerum est duis mollit at laborum odio cumque ex facere nostrud corrupti ipsum praesentium soluta mollitia cumque sunt incididunt accusamus fuga ex occaecat est culpa voluptas deserunt incididunt amet voluptatum labore occaecat corrupti fugiat nulla occaecat non fugiat in est esse ullamco minus accusamus et ex omnis qui voluptas et ullamco culpa assumenda libero ipsum consequatur laboris dolor sunt cupidatat dolor ut ipsum exercitation soluta lorem id elit praesentium minus similique autem dolor mollitia occaecat
+
+AngBot is a full-stack Discord AI assistant built as a Bun monorepo, combining a Next.js dashboard, Discord bot, Prisma database, and Gemini-powered RAG pipeline. The project allows users to create customizable AI agents, bind them to guilds or channels, and enrich them with uploaded documents so responses are grounded in relevant context rather than generic model output. The architecture is split cleanly across dashboard, bot, database, and shared RAG packages, making it more than a simple chatbo. It functions as a configurable AI platform with real-time management and telemetry.
+
+The system is built around agent configuration, document ingestion, context inheritance, and operational observability. Users can create agents with custom system prompts, model settings, and document knowledge bases, while channel-specific or guild-wide bindings determine how the bot responds in Discord. The project tracks usage through database-backed telemetry, including prompts, responses, tokens, latency, and status logs, which supports both dashboard analytics and debugging. The result is a product-style AI workflow that blends bot interaction, data persistence, LLM generation, and retrieval-based knowledge grounding into one cohesive experience.

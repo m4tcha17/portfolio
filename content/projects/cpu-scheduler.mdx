@@ -1,0 +1,27 @@
+export const metadata = {
+  title: "Quanta",
+  summary: "AI-powered meal suggestions using local ingredients and leftovers.",
+  image: "/images/quanta.png",
+  tech: ["React", "TypeScript", "Tailwind  CSS"],
+  github: "https://github.com/Shironium09/Leftover",
+  featured: true,
+  order: 3,
+  date: "2026",
+  contribution: [
+    "Designed and built the core operating systems scheduling simulator as a browser-based React application.",
+    "Implemented the scheduling logic for FCFS, SJF, SRTF, and Round Robin in TypeScript.",
+    "Created the interactive process input system for adding, editing, and removing process rows.",
+    "Added CSV and JSON upload support for importing process sets with validation and inline error handling.",
+    "Built the simulation execution flow with algorithm selection, time quantum support for Round Robin, and run-time validation.",
+    "Developed the visual output, including the Gantt chart, process lanes, and per-process and average metric reporting.",
+    "Ensured process coloring, stable IDs, and chart/table consistency for clearer analysis.",
+    "Styled the app for a presentation-oriented, educational interface using Tailwind and shadcn-based UI patterns.",
+    "Maintained the project as the repository owner and primary contributor for the final project deliverable.",
+  ],
+}
+
+Quanta is an interactive browser-based CPU scheduling simulator designed to help students and developers understand how operating systems make decisions about process execution. It focuses on practical learning by letting users input process data, choose a scheduling algorithm, and visualize how the CPU allocates time across multiple processes. The app helps users compare scheduling behavior, evaluate waiting and turnaround times, and understand how different algorithms affect system performance.
+
+The project is built as a React + TypeScript application powered by Vite, with a clean client-side architecture centered around simulation logic, reusable UI components, and visual output. The codebase is organized around the core scheduling engine in src/algorithms/, shared processing logic and validation in src/lib/, simulation state management in src/hooks/, and the interface in src/components/. It uses Tailwind CSS and shadcn-inspired component patterns for styling, with GSAP and Base UI primitives for motion and interaction, making the tool both educational and visually clear.
+
+The app supports FCFS, SJF, SRTF, and Round Robin scheduling, allowing users to test each strategy on the same workload and inspect results through a Gantt chart, per-process metrics, and average system statistics. It also includes CSV and JSON import support, process validation, and presentation-friendly output for classroom or project demonstrations. The architecture is intentionally lightweight and self-contained, with no backend services or database, making it well-suited for a focused interactive learning experience in operating systems.

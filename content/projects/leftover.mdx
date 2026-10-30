@@ -2,11 +2,20 @@ export const metadata = {
   title: "LeftOver",
   summary: "AI-powered meal suggestions using local ingredients and leftovers.",
   image: "/images/leftover.jpeg",
-  tech: ["React Native", "Expo", "TypeScript", "NativeWind"],
+  tech: ["React Native", "Expo", "TypeScript", "NativeWind", "Expo Router", "Supabase"],
   github: "https://github.com/Shironium09/Leftover",
   featured: true,
   order: 2,
   date: "2026",
+  contribution: [
+    "Contributed to the app foundation and project setup, including the Expo/React Native configuration and navigation scaffolding.",
+    "Worked on the authentication flow, including login and signup screens and the shared Auth component.",
+    "Contributed to the chatbot interface and recipe-related screens, which are central to the app’s functionality.",
+    "Refined reusable UI structure in components/Auth.tsx and other shared mobile components.",
+    "Helped stabilize the project across repeated builds and refinements, contributing to the final app state.",
+  ],
 }
 
-lorem ipsum dolor sit amet consectetur adipiscing elit soluta harum exercitation eu quod magna consequat tempore deserunt dolorem et facilis placeat consequatur cillum aliquip quos praesentium cupidatat imperdiet est quas eiusmod tempor est eum voluptas pariatur eiusmod facere tempore deleniti fuga veniam nulla qui dolore accusamus aute aliqua quo amet dolor maxime elit eligendi molestias iusto culpa imperdiet cumque ducimus minus provident ut harum minim nam maxime duis dolores atque nam ut irure culpa nulla dolor odio odio et provident nulla magna ea vero anim sint est ut repellendus sunt est in aliquip proident expedita quas anim dolor in commodo voluptas nam ut dolor quidem irure id sint similique quas aute ut consequatur blanditiis tempore culpa quas fuga sunt qui dolores deleniti quibusdam eiusmod expedita libero anim ea irure autem velit aliqua exercitation occaecat officia ut sint est ea est facere occaecat iusto laboris anim sint cum quibusdam officia cumque et nulla commodo aute et proident in incididunt occaecat voluptate mollitia ducimus lorem consectetur ut vel sint ut repellendus irure et esse pariatur cupidatat deleniti culpa dignissimos quo commodo laborum qui qui magna irure id qui in libero exercitation ea nulla atque ad et nostrud nulla dolores aute aute pariatur atque nihil est enim vero aliquip vel anim dolor et dolores cumque nulla aliqua consequat quos eu commodo sunt et incididunt ut in lorem consectetur rerum est duis mollit at laborum odio cumque ex facere nostrud corrupti ipsum praesentium soluta mollitia cumque sunt incididunt accusamus fuga ex occaecat est culpa voluptas deserunt incididunt amet voluptatum labore occaecat corrupti fugiat nulla occaecat non fugiat in est esse ullamco minus accusamus et ex omnis qui voluptas et ullamco culpa assumenda libero ipsum consequatur laboris dolor sunt cupidatat dolor ut ipsum exercitation soluta lorem id elit praesentium minus similique autem dolor mollitia occaecat
+Leftover is a mobile application designed to help users reduce food waste by tracking the ingredients they already have and generating recipe ideas from those ingredients. It focuses on practical meal planning by letting users manage pantry and fridge items, receive smart recipe suggestions, and get AI-assisted cooking support for substitutions, meal ideas, and recipe guidance. The app is built as an Expo-based React Native project, with a file-based app structure, reusable UI components, and a lightweight architecture centered around the mobile client and supporting data services.
+
+The codebase is organized around Expo Router screens in the app/ directory, reusable UI components in app/Components/, mock or structured data in data/, and NativeWind styling configured through global.css. It uses React Native as the core framework, Expo modules for image handling, media, storage, and system integration, and Supabase plus AsyncStorage for data persistence and local app state. The architecture is intentionally client-focused and lightweight, with a clear mobile app structure rather than a multi-service backend, making it well-suited for a user-facing recipe and pantry management experience.

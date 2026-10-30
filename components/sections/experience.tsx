@@ -63,15 +63,12 @@ function Achievements({ items }: { items: Achievement[] }) {
 
   return (
     <div>
-      <h3 className="text-xs font-medium tracking-[0.2em] text-muted-foreground uppercase">Certifications &amp; Awards</h3>
-      <ul className="mt-6 grid gap-4 sm:grid-cols-2">
+      <h3 className="text-xs font-medium tracking-[0.2em] text-muted-foreground uppercase">Certifications</h3>
+      <ul className="mt-6 grid gap-x-8 gap-y-6 sm:grid-cols-2">
         {items.map((item) => {
           const Icon = achievementIcons[item.kind];
           return (
-            <li
-              key={`${item.issuer}-${item.title}`}
-              className="flex gap-4 rounded-lg bg-card p-4 ring-1 ring-foreground/10"
-            >
+            <li key={`${item.issuer}-${item.title}`} className="flex gap-4">
               <Icon aria-hidden className="mt-0.5 size-6 shrink-0 text-primary" />
               <div className="min-w-0">
                 <h4 className="font-heading font-semibold tracking-tight text-foreground">{item.title}</h4>

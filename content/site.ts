@@ -56,7 +56,7 @@ export const site: SiteConfig = {
   location: "Cebu City, Philippines",
   availability: "Open to internships & junior roles · In-person / Remote",
   resume: "/resume.pdf",
-  description: "I am a software developer [studying at the University of San Carlos], specializing in [full-stack development] to build clean, minimal frontend alongside secure backend infrastructure. I daily drive [Linux] for system efficiency and workflow customization, proficient in [core system administration] and [terminal operations].",
+  description: "I am a 21 year old software developer [studying at the University of San Carlos], specializing in [full-stack development] to build clean frontend alongside secure backend infrastructure. I daily drive [Linux] for system efficiency and workflow customization, proficient in [core system administration] and [terminal operations].",
   email: "angjames2812@gmail.com",
   socials: [
     { platform: "github", label: "GitHub", href: "https://github.com/m4tcha17" },
