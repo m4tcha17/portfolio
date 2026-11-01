@@ -83,7 +83,7 @@ export default async function ProjectPage({ params }: PageProps<"/projects/[slug
             <div>
               <h2 className={sideHeading}>Tech stack</h2>
               <div className="mt-3">
-                <TechStack tech={project.tech} />
+                <TechStack tech={project.tech} icons={false} />
               </div>
             </div>
 

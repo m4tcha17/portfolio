@@ -5,7 +5,7 @@ import { Highlight } from "@/components/site/highlight";
 import TextType from "@/components/animations/text-type";
 import Magnet from "@/components/animations/magnet";
 import { FadeIn } from "@/components/site/fade-in";
-import { HeroReplay } from "@/components/sections/hero-replay";
+import { HeroOnce } from "@/components/sections/hero-once";
 import { HeroSkills } from "@/components/sections/hero-skills";
 import { LocalTime } from "@/components/site/local-time";
 import { buttonVariants } from "@/components/ui/button";
@@ -17,8 +17,8 @@ export function Hero() {
       className="mx-auto w-full max-w-5xl scroll-mt-16 px-4 sm:px-6"
     >
       <div>
-        {/* HeroReplay remounts all hero animations when the header home link is clicked. */}
-        <HeroReplay>
+        {/* HeroOnce keeps the load animations to the first load (no replay when returning home). */}
+        <HeroOnce>
           {/* Flex wrapper: green status dot beside the typed line (TextType renders inline-block). */}
           <div className="flex items-center gap-3">
             {/* Pulsing dot: a pinging ring behind a solid dot; static under prefers-reduced-motion. */}
@@ -86,7 +86,7 @@ export function Hero() {
           <FadeIn delay={0.6}>
             <HeroSkills />
           </FadeIn>
-        </HeroReplay>
+        </HeroOnce>
       </div>
     </section>
   );

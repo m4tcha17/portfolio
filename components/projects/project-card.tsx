@@ -59,7 +59,7 @@ export function ProjectCard({
         <div className="grid max-sm:hidden grid-rows-[0fr] opacity-0 transition-[grid-template-rows,opacity] duration-300 panel-open:grid-rows-[1fr] panel-open:opacity-100 panel-open:delay-150 pointer-coarse:grid-rows-[1fr] pointer-coarse:opacity-100 motion-reduce:transition-none motion-reduce:delay-0!">
           <div className="min-h-0 w-full overflow-hidden sm:pointer-fine:w-[calc((100cqw-0.75rem)*0.6-2.5rem)]">
             <div className="pt-3">
-              <TechStack tech={project.tech} />
+              <TechStack tech={project.tech} icons={false} />
             </div>
           </div>
         </div>

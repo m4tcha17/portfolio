@@ -6,7 +6,7 @@ import { HomeLink } from "@/components/site/home-link";
 import { NAV_BACK } from "@/components/site/page-transition";
 
 /**
- * Simple back arrow beside a page title. Links home by default (HomeLink, so the hero replays); pass `href` and `label`
+ * Simple back arrow beside a page title. Links home by default (HomeLink, slides back); pass `href` and `label`
  * to go back elsewhere (e.g. `/projects` from a project page). Either way the page slides back (leftward).
  * Hover/focus: the arrow grows and turns primary; no growth under prefers-reduced-motion.
  */

@@ -280,6 +280,10 @@ html:not(.theme-reveal) .vt-edge-blur {
     animation: fade-in 0.7s ease-out var(--fade-delay, 0s) both;
   }
 }
+/* Hero shown again after visiting another page (components/sections/hero-once.tsx): no fade replay. */
+[data-hero-played] .fade-in {
+  animation: none;
+}
 
 @layer base {
   * {

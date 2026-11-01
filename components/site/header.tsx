@@ -18,8 +18,10 @@ export function SiteHeader() {
     // Named so page slides pass under it instead of over it (page transitions in globals.css).
     <header className="vt-site-header sticky top-0 z-40 bg-background/80 backdrop-blur md:fixed md:inset-y-0 md:left-0 md:w-56 md:border-r md:border-border">
       <div className="flex h-14 w-full items-center justify-between gap-3 px-4 sm:px-6 md:relative md:h-full md:flex-col md:items-stretch md:justify-start md:px-6 md:py-8">
-        {/* From md: out of the flow, so the links center on the full sidebar height rather than the space below it. */}
-        <div className="md:absolute md:top-8 md:left-6 md:z-10">
+        {/* From md: out of the flow, so the links center on the full sidebar height rather than the space below it.
+            Offsets are the sidebar padding (left 24px, top 32px) minus the button's 7px around its 18px icon, so the
+            visible icon lines up with the padding like the links do on the right. */}
+        <div className="md:absolute md:top-6.25 md:left-4.25 md:z-10">
           <ThemeToggle />
         </div>
         <nav aria-label="Main" className="md:flex md:flex-1 md:flex-col md:justify-center">

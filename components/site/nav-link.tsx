@@ -17,7 +17,7 @@ import { HomeLink } from "@/components/site/home-link";
  * URL already shown, so a second click on a hash link would otherwise do nothing.
  *
  * Page links slide forward (rightward) unless the caller passes its own `transitionTypes`. The home link (`/`) renders
- * as HomeLink instead: it slides back (leftward), replays the hero animations and, on the home page, scrolls to the top.
+ * as HomeLink instead: it slides back (leftward) and, on the home page, scrolls to the top.
  */
 export function NavLink({ href, className, onClick, ...props }: ComponentProps<typeof Link> & { href: string }) {
   const pathname = usePathname();
