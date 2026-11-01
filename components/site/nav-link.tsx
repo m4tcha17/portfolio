@@ -5,6 +5,7 @@ import { usePathname } from "next/navigation";
 import type { ComponentProps } from "react";
 
 import { cn } from "@/lib/utils";
+import { NAV_FORWARD } from "@/components/site/page-transition";
 
 /**
  * Nav link marked `aria-current="page"` while on its page or a page below it
@@ -13,6 +14,8 @@ import { cn } from "@/lib/utils";
  *
  * On the home page, a hash link scrolls to its section itself: next/link skips a navigation to the
  * URL already shown, so a second click on a hash link would otherwise do nothing.
+ *
+ * Page links slide forward (rightward) unless the caller passes its own `transitionTypes`.
  */
 export function NavLink({ href, className, onClick, ...props }: ComponentProps<typeof Link> & { href: string }) {
   const pathname = usePathname();
@@ -21,6 +24,7 @@ export function NavLink({ href, className, onClick, ...props }: ComponentProps<t
   return (
     <Link
       href={href}
+      transitionTypes={NAV_FORWARD}
       onClick={(event) => {
         onClick?.(event);
         const [path, hash] = href.split("#");

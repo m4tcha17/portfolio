@@ -172,15 +172,86 @@
   }
 }
 
-/* Welcome screen (components/site/intro.tsx): shown only while <html data-intro>, page scroll locked meanwhile. */
-.intro-overlay {
+/* Page transitions (components/site/page-transition.tsx): pages slide horizontally on navigation. Forward (nav links,
+   project links) slides right, away from the sidebar; back (back arrows, home) slides left. Old page leaves fast, new
+   page fades in after it. */
+::view-transition-old(.nav-forward) {
+  --slide-offset: 60px;
+  animation:
+    150ms ease-in both page-fade reverse,
+    400ms ease-in-out both page-slide reverse;
+}
+::view-transition-new(.nav-forward) {
+  --slide-offset: -60px;
+  animation:
+    210ms ease-out 150ms both page-fade,
+    400ms ease-in-out both page-slide;
+}
+::view-transition-old(.nav-back) {
+  --slide-offset: -60px;
+  animation:
+    150ms ease-in both page-fade reverse,
+    400ms ease-in-out both page-slide reverse;
+}
+::view-transition-new(.nav-back) {
+  --slide-offset: 60px;
+  animation:
+    210ms ease-out 150ms both page-fade,
+    400ms ease-in-out both page-slide;
+}
+
+@keyframes page-fade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@keyframes page-slide {
+  from {
+    translate: var(--slide-offset);
+  }
+  to {
+    translate: 0;
+  }
+}
+
+/* Nav and top edge blur stay put above the sliding pages. Not named during the theme reveal, which must clip them with
+   the rest of the root snapshot. */
+html:not(.theme-reveal) .vt-site-header {
+  view-transition-name: site-header;
+}
+html:not(.theme-reveal) .vt-edge-blur {
+  view-transition-name: edge-blur;
+}
+::view-transition-group(site-header),
+::view-transition-group(edge-blur) {
+  animation: none;
+  z-index: 100;
+}
+::view-transition-old(site-header),
+::view-transition-old(edge-blur) {
   display: none;
 }
-html[data-intro] .intro-overlay {
-  display: block;
+::view-transition-new(site-header),
+::view-transition-new(edge-blur) {
+  animation: none;
 }
-html[data-intro] {
-  overflow: hidden;
+
+/* Clicks during a transition reach the live page instead of the overlay. */
+::view-transition {
+  pointer-events: none;
+}
+
+/* Instant swaps under prefers-reduced-motion (the theme reveal already skips the transition there). */
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-old(*),
+  ::view-transition-new(*),
+  ::view-transition-group(*) {
+    animation-duration: 0s !important;
+    animation-delay: 0s !important;
+  }
 }
 
 /* Load fade (components/site/fade-in.tsx): opacity fade on mount, delayed by --fade-delay. Off under prefers-reduced-motion. */

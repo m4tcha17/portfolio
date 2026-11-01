@@ -5,6 +5,7 @@ import { ArrowUpRightIcon } from "@phosphor-icons/react/ssr";
 import type { Project } from "@/lib/projects";
 import { cn } from "@/lib/utils";
 import { TechStack } from "@/components/projects/tech-stack";
+import { NAV_FORWARD } from "@/components/site/page-transition";
 
 /**
  * Home Featured Projects panel. Collapsed: dimmed grayscale image with index and title.
@@ -27,6 +28,7 @@ export function ProjectCard({
   return (
     <Link
       href={`/projects/${project.slug}`}
+      transitionTypes={NAV_FORWARD}
       className={cn(
         "group relative block h-full overflow-hidden bg-muted ring-1 ring-inset ring-foreground/10 outline-none focus-visible:ring-2 focus-visible:ring-ring",
         className,
@@ -51,9 +53,11 @@ export function ProjectCard({
             className="size-5 shrink-0 opacity-0 transition-[opacity,translate] duration-300 group-hover/title:translate-x-1 group-hover/title:-translate-y-1 panel-open:opacity-100 pointer-coarse:opacity-100 motion-reduce:transition-none motion-reduce:translate-0!"
           />
         </h3>
-        {/* Tech stack unrolls when expanded. Fixed min width so chips don't rewrap mid-animation; the card clips it. */}
+        {/* Tech stack unrolls when expanded. From sm with a mouse, its width is fixed to the open panel's final content width
+            (3/5 of the row (100cqw, the .panels container) minus the two 0.375rem gaps, minus px-5), so chips wrap the
+            same way throughout the widen animation; collapsed panels clip it. Stacked or touch: the card's width. */}
         <div className="grid grid-rows-[0fr] opacity-0 transition-[grid-template-rows,opacity] duration-300 panel-open:grid-rows-[1fr] panel-open:opacity-100 panel-open:delay-150 pointer-coarse:grid-rows-[1fr] pointer-coarse:opacity-100 motion-reduce:transition-none motion-reduce:delay-0!">
-          <div className="min-h-0 min-w-72 overflow-hidden">
+          <div className="min-h-0 w-full overflow-hidden sm:pointer-fine:w-[calc((100cqw-0.75rem)*0.6-2.5rem)]">
             <div className="pt-3">
               <TechStack tech={project.tech} />
             </div>

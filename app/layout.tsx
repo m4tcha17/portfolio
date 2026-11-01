@@ -8,7 +8,8 @@ import { SiteHeader } from "@/components/site/header";
 import { SiteFooter } from "@/components/site/footer";
 import { ThemeProvider } from "@/components/site/theme-provider";
 import { ParticlesBackground } from "@/components/site/particles-background";
-import { Intro, IntroScript } from "@/components/site/intro";
+import { SmoothScroll } from "@/components/site/smooth-scroll";
+import { ReloadHomeScript } from "@/components/site/reload-home";
 
 const publicSans = Public_Sans({subsets:['latin'],variable:'--font-sans'});
 
@@ -34,29 +35,29 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    // Smooth scrolling for in-page anchors (#projects, back to top), off under prefers-reduced-motion.
-    // data-scroll-behavior lets Next.js disable it during route navigations so page changes still jump to the top.
+    // Smooth scrolling comes from Lenis (SmoothScroll), not CSS scroll-behavior, which would fight its scroll updates.
     // suppressHydrationWarning: next-themes sets the theme class on <html> before hydration.
     <html
       lang="en"
       suppressHydrationWarning
-      data-scroll-behavior="smooth"
-      className={cn("h-full", "antialiased", "motion-safe:scroll-smooth", geistSans.variable, geistMono.variable, "font-sans", publicSans.variable)}
+      className={cn("h-full", "antialiased", geistSans.variable, geistMono.variable, "font-sans", publicSans.variable)}
     >
       <body className="min-h-full flex flex-col bg-background text-foreground md:pl-56">
         {/* Before any content: decides whether the welcome screen shows, so it never flashes. */}
-        <IntroScript />
+        {/* A reload anywhere sends the visitor back to the top of the home page. */}
+        <ReloadHomeScript />
         <ThemeProvider>
+          <SmoothScroll />
           <ParticlesBackground />
-          <Intro />
           <SiteHeader />
           <main className="flex flex-1 flex-col">{children}</main>
           <SiteFooter />
           {/* Top edge: translucent blur fading downward, so content softens as it scrolls out. Sits under the mobile top bar
-              (h-14 + 1px border); from md, at the very top beside the sidebar. */}
+              (h-14 + 1px border); from md, at the very top beside the sidebar. Named so it stays on top of sliding pages
+              (see page transitions in globals.css). */}
           <div
             aria-hidden
-            className="pointer-events-none fixed inset-x-0 top-[calc(3.5rem+1px)] z-30 h-16 bg-linear-to-b from-background/80 to-transparent backdrop-blur mask-b-from-50% md:top-0 md:left-56"
+            className="vt-edge-blur pointer-events-none fixed inset-x-0 top-[calc(3.5rem+1px)] z-30 h-16 bg-linear-to-b from-background/80 to-transparent backdrop-blur mask-b-from-50% md:top-0 md:left-56"
           />
         </ThemeProvider>
       </body>

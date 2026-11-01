@@ -5,6 +5,7 @@ import { stripHighlights } from "@/lib/highlight";
 import { cn } from "@/lib/utils";
 import { buttonVariants } from "@/components/ui/button";
 import { socialIcons } from "@/components/site/social-icons";
+import { BackToTop } from "@/components/site/back-to-top";
 
 /** Subtle lift + primary tint for footer icons, driven by the parent link's `group`. */
 const ICON_LIFT =
@@ -48,10 +49,8 @@ export function SiteFooter() {
             );
           })}
           <li>
-            <a
-              href="#"
+            <BackToTop
               className={cn(
-                "",
                 buttonVariants({ variant: "ghost", size: "sm" }),
                 "hover:bg-transparent hover:text-primary focus-visible:text-primary dark:hover:bg-transparent",
               )}
@@ -62,7 +61,7 @@ export function SiteFooter() {
                 aria-hidden
                 className="transition-transform duration-300 group-hover/button:-translate-y-0.5 group-focus-visible/button:-translate-y-0.5 motion-reduce:transition-none motion-reduce:translate-y-0!"
               />
-            </a>
+            </BackToTop>
           </li>
         </ul>
       </div>

@@ -14,7 +14,8 @@ const navItems = [
  */
 export function SiteHeader() {
   return (
-    <header className="sticky top-0 z-40 border-b border-border bg-background/80 backdrop-blur md:fixed md:inset-y-0 md:left-0 md:w-56 md:border-r md:border-b-0">
+    // Named so page slides pass under it instead of over it (page transitions in globals.css).
+    <header className="vt-site-header sticky top-0 z-40 border-b border-border bg-background/80 backdrop-blur md:fixed md:inset-y-0 md:left-0 md:w-56 md:border-r md:border-b-0">
       <div className="flex h-14 w-full items-center justify-between gap-4 px-4 sm:px-6 md:relative md:h-full md:flex-col md:items-stretch md:justify-start md:px-6 md:py-8">
         {/* From md: out of the flow, so the links center on the full sidebar height rather than the space below it. */}
         <ThemeMenu className="md:absolute md:top-8 md:left-6 md:z-10" />

@@ -3,6 +3,8 @@
 import type { MouseEvent, ReactNode } from "react";
 import { useRouter } from "next/navigation";
 
+import { NAV_FORWARD } from "@/components/site/page-transition";
+
 /**
  * Makes a whole `/projects` row clickable without covering its text, so the text stays selectable.
  * A click that ends a text selection, or lands on a link/button inside the row, does not navigate.
@@ -17,7 +19,7 @@ export function ProjectRowLink({ href, className, children }: { href: string; cl
       window.open(href, "_blank", "noopener");
       return;
     }
-    router.push(href);
+    router.push(href, { transitionTypes: NAV_FORWARD });
   }
 
   return (

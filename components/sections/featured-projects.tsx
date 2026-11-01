@@ -4,6 +4,7 @@ import { ArrowRightIcon } from "@phosphor-icons/react/ssr";
 import { getFeaturedProjects } from "@/lib/projects";
 import { buttonVariants } from "@/components/ui/button";
 import { ProjectCard } from "@/components/projects/project-card";
+import { NAV_FORWARD } from "@/components/site/page-transition";
 
 export async function FeaturedProjects() {
   const projects = await getFeaturedProjects();
@@ -12,7 +13,7 @@ export async function FeaturedProjects() {
     <section id="projects" className="mx-auto w-full max-w-5xl scroll-mt-16 px-4 py-16 sm:px-6">
       <div className="flex items-end justify-between gap-4">
         <h2 className="font-heading text-3xl font-semibold tracking-tight sm:text-4xl">Featured Projects</h2>
-        <Link href="/projects" className={buttonVariants({ variant: "quiet" })}>
+        <Link href="/projects" transitionTypes={NAV_FORWARD} className={buttonVariants({ variant: "quiet" })}>
           More works
           <ArrowRightIcon
             data-icon="inline-end"
@@ -22,8 +23,9 @@ export async function FeaturedProjects() {
         </Link>
       </div>
       {/* Expanding panels (`panels`/`panel` drive the `panel-open` variant in globals.css):
-          the hovered/focused panel widens to 3x; with none, the first stays open. Stacked below sm. */}
-      <ul className="panels mt-8 flex flex-col gap-1.5 sm:h-112 sm:flex-row">
+          the hovered/focused panel widens to 3x; with none, the first stays open. Stacked below sm.
+          @container: ProjectCard sizes its tech stack from this row's width. */}
+      <ul className="panels @container mt-8 flex flex-col gap-1.5 sm:h-112 sm:flex-row">
         {projects.map((project, index) => (
           <li
             key={project.slug}
