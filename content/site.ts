@@ -11,12 +11,33 @@ export type SkillGroup = {
   items: string[];
 };
 
-export type ExperienceItem = {
-  role: string;
-  organization: string;
-  /** Free text, e.g. "2024 – Present". */
+/** `/experience` Education entry: period beside school, degree · location and honors. */
+export type EducationItem = {
+  school: string;
+  degree: string;
+  /** School location, e.g. "Cebu City, PHL". Shown beside the degree. */
+  location?: string;
+  /** Free text, e.g. "2022 – Present". */
   period: string;
-  description: string;
+  /** Honors and distinctions, e.g. "Consistent Dean's Lister". */
+  honors?: string[];
+};
+
+/**
+ * `/experience` Achievements entry: period beside title and organization. Set `href` to link the row to a page
+ * (e.g. the exam's results), or `certificate` to open a photo of the certificate in a modal. `href` wins if both are set.
+ */
+export type AchievementItem = {
+  /** Award or result. */
+  title: string;
+  /** Event or organization. */
+  organization: string;
+  /** Free text, e.g. "2025". */
+  period: string;
+  /** External page about the achievement; opens in a new tab. */
+  href?: string;
+  /** Certificate photo in public/, e.g. "/certificates/philnits.jpg"; opens in a modal. */
+  certificate?: string;
 };
 
 export type SiteConfig = {
@@ -35,8 +56,10 @@ export type SiteConfig = {
   socials: SocialLink[];
   /** Home hero: skills grouped into categories. */
   skillGroups: SkillGroup[];
-  /** Experience page: newest first. */
-  experience: ExperienceItem[];
+  /** Experience page, Education section: newest first. */
+  education: EducationItem[];
+  /** Experience page, Achievements section: newest first. */
+  achievements: AchievementItem[];
 };
 
 export const site: SiteConfig = {
@@ -59,18 +82,39 @@ export const site: SiteConfig = {
     { title: "Backend & Infrastructure", items: ["Node.js", "Supabase", "PostgreSQL / SQL"] },
     { title: "Environment & Tooling", items: ["Linux / Bash", "Git", "Github"] },
   ],
-  experience: [
+  education: [
     {
-      role: "Placeholder role",
-      organization: "Placeholder organization",
-      period: "2025 – Present",
-      description: "Placeholder description of what you did and what came of it.",
+      school: "University of San Carlos",
+      degree: "BS Computer Science",
+      location: "Talamban, Cebu City",
+      period: "2024 – Present",
+      honors: ["Consistent Dean's Lister", "Relevant Coursework: Data Sructures & Algorithms, Algorithms & Complexity, Object-Oriented Programming, ",],
     },
     {
-      role: "Placeholder role",
-      organization: "Placeholder organization",
-      period: "2024 – 2025",
-      description: "Placeholder description of what you did and what came of it.",
+      school: "Cathedral School of La Naval",
+      degree: "STEM Senior High School",
+      location: "Naval, Biliran",
+      period: "2022 – 2024",
+    },
+  ],
+  achievements: [
+    {
+      title: "AI in Language Research International Conference 2026 Atendee",
+      organization: "De La Salle University • University of San Carlos • University of Cebu",
+      period: "2026",
+      certificate: "/images/ailric.png",
+    },
+    {
+      title: "PhilNITS FE Passer",
+      organization: "PhilNITS Foundation, Inc",
+      period: "2026",
+      href: "https://itpec.org/statsandresults/all-passers-information/Philippines/2026S_FE.pdf",
+    },
+    {
+      title: "CCNA: Introduction to Networks",
+      organization: "CISCO • University of San Carlos",
+      period: "2025",
+      certificate: "/images/ccna.png",
     },
   ],
 };

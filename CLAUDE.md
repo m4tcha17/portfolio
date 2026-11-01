@@ -30,8 +30,8 @@
 - **Motion**: no scroll-triggered animations. Above-the-fold content fades in on load (`FadeIn`, CSS only). No GSAP or other animation library (Lenis for smooth scroll is the one exception). Kept simple and recruiter friendly.
 - **Smooth scroll**: Lenis on the window (`SmoothScroll` in the layout), handles `#anchor` links, and stops smoothing under `prefers-reduced-motion`. No CSS `scroll-behavior: smooth`.
 - **Page transitions**: each page wraps its content in `PageTransition` (React `<ViewTransition>`), CSS in `app/globals.css`. Forward links (nav links, project cards/rows, "More works") pass `transitionTypes={NAV_FORWARD}` and slide right; back links (`HomeLink`/`BackButton`, "All projects") pass `NAV_BACK` and slide left. Nav and top edge blur stay fixed above the slide. Browser back/forward swaps instantly. Instant under `prefers-reduced-motion`.
-- **Navigation**: from `md` up, a fixed left sidebar (translucent, backdrop blur, right border): burger button at the top left, then the nav links (Experience, Projects, Contact; uppercase, larger, widely spaced) centered vertically on the full viewport height (not the space below the burger) and right-aligned. Below `md`, a sticky top bar with burger left, links right. Links turn primary and shift right on hover/focus, and stay that way on the current page. The burger hides the theme toggle: clicking it turns its lines upright one by one, top to bottom, into a vertical burger, then the toggle unrolls downward beneath it (CSS only, instant under `prefers-reduced-motion`).
-- **`/experience`**: heading and a list of `site.experience` entries (newest first): period beside role, organization and description.
+- **Navigation**: from `md` up, a fixed left sidebar (translucent, backdrop blur, right border): burger button at the top left, then the nav links (Home, Experience, Projects, Contact; uppercase, larger, widely spaced) centered vertically on the full viewport height (not the space below the burger) and right-aligned. Below `md`, a sticky top bar with burger left, links right. Links turn primary and shift right on hover/focus, and stay that way on the current page. Home is a `HomeLink`: slides back, replays the hero animations, and scrolls to the top when already home. Below `md` the links are slightly smaller and tighter so all four fit. The burger hides the theme toggle: clicking it turns its lines upright one by one, top to bottom, into a vertical burger, then the toggle unrolls downward beneath it (CSS only, instant under `prefers-reduced-motion`).
+- **`/experience`**: heading, then two sections, Education (default) and Achievements (`site.education`, `site.achievements`, newest first), period on the left. Education rows: school (largest), degree · location below, then honors (bullet list). Achievement rows: title and organization, no description; with `href` the row links out (new tab, up-right arrow), with `certificate` (image in `public/certificates/`) it opens the photo in a modal (`CertificateDialog`, native `<dialog>`). Sections switch in place (no URL) with a directional slide + fade (`ExperiencePanels`): picking a tab to the right slides content in from the right, to the left from the left (CSS only, instant under `prefers-reduced-motion`). The switch is a centered bar under the heading (`ExperienceNav`): rounded bordered pill, uppercase tracked labels like the main nav (smaller), hover/focus primary, selected label on a primary-tinted pill that morphs (slides and resizes) to the new label on switch (instant under `prefers-reduced-motion`).
 - **Edge blur**: a fixed strip at the top of the content area (gradient + backdrop blur, fading downward; below the mobile top bar), matching the nav's translucent blur, softens content scrolling out. No bottom strip.
 - **Home sections**: no separator between Hero and Featured Projects.
 - **Featured Projects**: header row with "Featured Projects" (left) and a "More works" button linking to `/projects` (right). Max 3 cards, selected by `featured: true` and sorted by `order`, shown as three side-by-side panels (stacked below `sm`). Collapsed panels show a dimmed grayscale image with an index ("01") and the title over a light bottom gradient. The open panel (hovered/focused, else the first) is 3x wider, full color, and shows the tech stack (same light gradient as collapsed, no extra blur); hovering the title shifts its arrow up-right. Touch screens always show color and tech stack. CSS only (`panel-open` variant in `app/globals.css`). Each card links to `/projects/[slug]`.
@@ -55,13 +55,13 @@
 
 ## Content
 
-- Each project is one file in `content/projects/<slug>.mdx`. It exports `metadata` (`title`, `summary`, `image`, optional `imagePosition` (cover crop focus), `tech`, `github`, `featured`, `order`, optional `date`, optional `contribution`) and its body is the long description.
+- Each project is one file in `content/projects/<slug>.mdx`. It exports `metadata` (`title`, `summary`, `image`, optional `imagePosition` (cover crop focus), `tech`, `github`, `featured`, `order`, optional `date`, optional `contribution`) and its body is the long description, written as a case study: `## Problem` then `## Solution` sections (MDX `h2`, styled in `mdx-components.tsx` as small uppercase primary labels).
 - Rendering rule:
   - Home Featured Projects cards: title and tech stack only (`imagePosition` applies here).
   - `/projects` rows: title and `summary` (no long description).
   - `/projects/[slug]`: long description only (`summary` is used just for the page metadata). `date` and `contribution` (bullet list) are shown only here.
 - `lib/projects.ts` holds the `ProjectMeta` type, `getProjects()` (reads `content/projects/` server-side, sorted by `order`), `getFeaturedProjects()` (featured, first 3) and `getProject(slug)`.
-- `content/site.ts`: typed profile data (name, role, availability, location, timezone, tagline, description, email, resume, socials, skillGroups, experience).
+- `content/site.ts`: typed profile data (name, role, availability, location, timezone, tagline, description, email, resume, socials, skillGroups, education, achievements).
 - Project images live in `public/projects/<slug>.(png|webp)` and render with `next/image`.
 
 ## Structure
@@ -70,13 +70,13 @@
 app/
   layout.tsx            # metadata, SiteHeader, SiteFooter
   page.tsx              # Hero, FeaturedProjects
-  experience/page.tsx   # site.experience entries
+  experience/page.tsx   # Education / Achievements sections
   contact/page.tsx      # heading, short text, Get in touch button
   projects/page.tsx     # all projects, one ProjectRow each
   projects/[slug]/page.tsx  # project detail page
 components/
   ui/                   # shadcn components
-  site/                 # header.tsx, nav-link.tsx, footer.tsx, back-to-top.tsx, home-link.tsx, back-button.tsx, theme-provider.tsx, theme-toggle.tsx, theme-menu.tsx, smooth-scroll.tsx, page-transition.tsx, reload-home.tsx, particles-background.tsx, fade-in.tsx, local-time.tsx
+  site/                 # header.tsx, nav-link.tsx, footer.tsx, back-to-top.tsx, home-link.tsx, back-button.tsx, theme-provider.tsx, theme-toggle.tsx, theme-menu.tsx, experience-tabs.tsx, certificate-dialog.tsx, smooth-scroll.tsx, page-transition.tsx, reload-home.tsx, particles-background.tsx, fade-in.tsx, local-time.tsx
   sections/             # hero.tsx, hero-replay.tsx, hero-skills.tsx, featured-projects.tsx
   projects/             # project-card.tsx, project-row.tsx, tech-stack.tsx
   animations/           # React Bits components (particles.tsx, text-type.tsx, magnet.tsx)

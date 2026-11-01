@@ -42,8 +42,9 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       suppressHydrationWarning
       className={cn("h-full", "antialiased", geistSans.variable, geistMono.variable, "font-sans", publicSans.variable)}
     >
-      <body className="min-h-full flex flex-col bg-background text-foreground md:pl-56">
-        {/* Before any content: decides whether the welcome screen shows, so it never flashes. */}
+      {/* min-h-svh, not min-h-full: Lenis's CSS sets html height to auto, so a percentage height no longer reaches
+          the viewport. With main as flex-1, the footer sits at the bottom of short pages. */}
+      <body className="min-h-svh flex flex-col bg-background text-foreground md:pl-56">
         {/* A reload anywhere sends the visitor back to the top of the home page. */}
         <ReloadHomeScript />
         <ThemeProvider>

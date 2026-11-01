@@ -21,6 +21,12 @@ export const metadata = {
   ],
 }
 
-Quanta is an interactive browser-based CPU scheduling simulator designed to help students and developers understand how operating systems make decisions about process execution. It focuses on practical learning by letting users input process data, choose a scheduling algorithm, and visualize how the CPU allocates time across multiple processes. The app helps users compare scheduling behavior, evaluate waiting and turnaround times, and understand how different algorithms affect system performance.
+## Problem
 
-The app supports FCFS, SJF, SRTF, and Round Robin scheduling, allowing users to test each strategy on the same workload and inspect results through a Gantt chart, per-process metrics, and average system statistics. It also includes CSV and JSON import support, process validation, and presentation-friendly output for classroom or project demonstrations. The architecture is intentionally lightweight and self-contained, with no backend services or database, making it well-suited for a focused interactive learning experience in operating systems.
+CPU scheduling is usually taught through static tables and hand-drawn Gantt charts, which makes it hard for students to see how each algorithm actually allocates time, or to compare algorithms on the same workload.
+
+## Solution
+
+Quanta is an interactive browser-based CPU scheduling simulator. Users input process data, choose a scheduling algorithm, and watch how the CPU allocates time across processes, then compare waiting and turnaround times to see how each algorithm affects system performance.
+
+It supports FCFS, SJF, SRTF, and Round Robin, with results shown as a Gantt chart, per-process metrics, and average system statistics. CSV and JSON import, process validation, and presentation-friendly output make it suited to classroom and project demonstrations. The app is intentionally lightweight and self-contained, with no backend services or database.

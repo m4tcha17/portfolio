@@ -16,7 +16,12 @@ export const metadata = {
   ],
 }
 
+## Problem
 
-AngBot is a full-stack Discord AI assistant built as a Bun monorepo, combining a Next.js dashboard, Discord bot, Prisma database, and Gemini-powered RAG pipeline. The project allows users to create customizable AI agents, bind them to guilds or channels, and include specified context using uploaded documents so responses are grounded in relevant information rather than generic model output. The architecture is split cleanly across dashboard, bot, database, and shared RAG packages. It functions as a configurable AI platform with real-time management and telemetry.
+General-purpose AI chatbots in Discord give generic answers: they don't know a community's own documents, can't be tuned per server or channel, and offer no visibility into how they're used or how well they perform.
 
-The system is built around agent configuration, document ingestion, context inheritance, and operational observability. Users can create agents with custom system prompts, model settings, and document knowledge bases, while channel-specific or guild-wide bindings determine how the bot responds in Discord. The project tracks usage through database-backed telemetry, including prompts, responses, tokens, latency, and status logs, which supports both dashboard analytics and debugging. The result is a product-style AI workflow that blends bot interaction, data persistence, LLM generation, and retrieval-based knowledge grounding into one cohesive experience.
+## Solution
+
+AngBot is a full-stack Discord AI assistant built as a Bun monorepo, combining a Next.js dashboard, Discord bot, Prisma database, and Gemini-powered RAG pipeline. Users create customizable AI agents, bind them to guilds or channels, and attach uploaded documents so responses are grounded in relevant information rather than generic model output. The architecture is split cleanly across dashboard, bot, database, and shared RAG packages.
+
+Agents carry custom system prompts, model settings, and document knowledge bases, while channel-specific or guild-wide bindings determine how the bot responds. Database-backed telemetry tracks prompts, responses, tokens, latency, and status logs, supporting both dashboard analytics and debugging. The result is a product-style AI workflow that blends bot interaction, data persistence, LLM generation, and retrieval-based grounding into one cohesive experience.
