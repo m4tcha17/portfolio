@@ -51,6 +51,20 @@
   --radius-4xl: calc(var(--radius) * 2.6);
 }
 
+/* Type scale one step larger than Tailwind's defaults, so all text reads bigger. Line heights keep Tailwind's ratios. */
+@theme {
+  --text-xs: 0.875rem;
+  --text-sm: 1rem;
+  --text-base: 1.125rem;
+  --text-lg: 1.25rem;
+  --text-xl: 1.375rem;
+  --text-2xl: 1.75rem;
+  --text-3xl: 2.125rem;
+  --text-4xl: 2.5rem;
+  --text-5xl: 3.375rem;
+  --text-6xl: 4.25rem;
+}
+
 :root {
   --background: oklch(0.9546 0.0086 67.72);
   --foreground: oklch(0.141 0.005 285.823);
@@ -79,10 +93,6 @@
   --scrim: oklch(0.141 0.005 285.823);
   --scrim-foreground: oklch(0.985 0 0);
   --primary-on-scrim: oklch(0.86 0.09 152.41);
-  /* TargetCursor color; exclusion blend turns it dark on light content. */
-  --cursor: oklch(0.9546 0.0086 67.72);
-  /* TargetCursor corner brackets: mid grey, so after the exclusion blend they read as grey, softer than the dot. */
-  --cursor-corners: oklch(0.7 0.006 286);
   --sidebar: oklch(0.985 0 0);
   --sidebar-foreground: oklch(0.141 0.005 285.823);
   --sidebar-primary: oklch(0.5049 0.0606 152.41);
@@ -121,10 +131,8 @@
   /* Terminal and card gradient: a step above the background so the hero terminal doesn't merge into the page. */
   --scrim: oklch(0.21 0.006 285.885);
   --scrim-foreground: oklch(0.985 0 0);
-  /* Featured card title hover and terminal prompt: a lighter rose that reads on the scrim. */
+  /* Featured card title hover: a lighter rose that reads on the scrim. */
   --primary-on-scrim: oklch(0.86 0.06 19.72);
-  --cursor: oklch(0.985 0 0);
-  --cursor-corners: oklch(0.75 0.006 286);
   --sidebar: oklch(0.21 0.006 285.885);
   --sidebar-foreground: oklch(0.985 0 0);
   --sidebar-primary: oklch(0.7366 0.0672 19.72);
@@ -154,6 +162,29 @@
   }
   to {
     clip-path: circle(var(--reveal-r) at var(--reveal-x) var(--reveal-y));
+  }
+}
+
+/* Welcome screen (components/site/intro.tsx): shown only while <html data-intro>, page scroll locked meanwhile. */
+.intro-overlay {
+  display: none;
+}
+html[data-intro] .intro-overlay {
+  display: block;
+}
+html[data-intro] {
+  overflow: hidden;
+}
+
+/* Load fade (components/site/fade-in.tsx): opacity fade on mount, delayed by --fade-delay. Off under prefers-reduced-motion. */
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .fade-in {
+    animation: fade-in 0.7s ease-out var(--fade-delay, 0s) both;
   }
 }
 

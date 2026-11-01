@@ -1,4 +1,4 @@
-# ang.dev
+# Portfolio
 
 Personal portfolio of James Ang, Software Developer. A fully static site built with Next.js and deployed on Vercel.
 
@@ -15,7 +15,6 @@ Personal portfolio of James Ang, Software Developer. A fully static site built w
 ## Pages
 
 - `/` — Hero, skills marquee, featured projects, contact
-- `/about` — profile photo, bio, skills
 - `/projects` — all projects
 - `/projects/[slug]` — project detail page
 
@@ -42,7 +41,6 @@ Open [http://localhost:3000](http://localhost:3000).
 | What                                | Where                         |
 | ----------------------------------- | ----------------------------- |
 | Name, role, tagline, email, socials, skills | `content/site.ts`     |
-| About bio                           | `content/about.mdx`           |
 | Projects                            | `content/projects/<slug>.mdx` |
 | Images                              | `public/`                     |
 

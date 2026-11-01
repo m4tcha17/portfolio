@@ -55,7 +55,7 @@ export function ThemeToggle() {
       type="button"
       onClick={toggle}
       aria-label="Toggle dark mode"
-      className="cursor-target relative inline-flex size-8 items-center justify-center rounded-md text-muted-foreground transition-colors duration-300 outline-none hover:text-primary focus-visible:text-primary focus-visible:ring-2 focus-visible:ring-ring/30"
+      className="relative inline-flex size-8 cursor-pointer items-center justify-center rounded-md text-muted-foreground transition-colors duration-300 outline-none hover:text-primary focus-visible:text-primary focus-visible:ring-2 focus-visible:ring-ring/30"
     >
       {/* Both icons render and the `.dark` class picks one, so server and client markup match before the theme is known.
           Showing an icon (display none to inline) restarts its enter animation: the sun or moon spins in on each switch. */}

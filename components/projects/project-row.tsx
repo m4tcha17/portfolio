@@ -21,7 +21,7 @@ export function ProjectRow({ project, index }: { project: Project; index: number
     <ProjectRowLink
       href={`/projects/${project.slug}`}
       className={cn(
-        "cursor-target group relative grid cursor-pointer gap-6 rounded-lg p-4 transition-colors has-[a[data-row-link]:focus-visible]:ring-2 has-[a[data-row-link]:focus-visible]:ring-ring sm:items-center sm:gap-10",
+        "group relative grid cursor-pointer gap-6 rounded-lg p-4 transition-colors has-[a[data-row-link]:focus-visible]:ring-2 has-[a[data-row-link]:focus-visible]:ring-ring sm:items-center sm:gap-10",
         flipped ? "sm:grid-cols-[minmax(0,3fr)_minmax(0,2fr)]" : "sm:grid-cols-[minmax(0,2fr)_minmax(0,3fr)]",
       )}
     >

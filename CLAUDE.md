@@ -20,20 +20,23 @@
 
 # Scope
 
-- **Home `/`**: single scrolling page with sections Hero, Skills Marquee, Featured Projects, Contact.
-- **First screen**: Hero and Skills Marquee together fill the viewport below the header; Featured Projects starts below the fold.
-- **Skills Marquee** (home, between Hero and Featured Projects): thin strip of `site.skills` scrolling horizontally (React Bits `LogoLoop`), static under `prefers-reduced-motion`.
-- **`/about`**: bookish layout (layout only, site fonts unchanged), three sections separated by ornament dividers:
-  - Intro: name (the page's h1), role · location line, ornament divider, profile photo (`public/profile.jpg`) beside the About bio from `content/about.mdx` (drop cap), then an epigraph quote.
-  - Skills: `site.skillGroups` in three categories (Languages, Libraries & Frameworks, Backend & Infrastructure), chips per group.
-  - What I'm doing now: `site.now` list of label + text items.
-  - Lattice Loader (React Bits `LatticeLoader`) left-aligned under the bio: "Thinking" briefly, then "Thought for Ns", as if the bio was just reasoned out.
+- **Home `/`**: single scrolling page with sections Hero, Featured Projects.
+- **Hero**: typed role line, name (the page's h1), description, two buttons, then Skills at the bottom: `site.skillGroups` in four categories (Languages, Libraries & Frameworks, Backend & Infrastructure, Environment & Tooling), chips per group.
+- **First screen**: Hero fills the viewport (below the mobile top bar); Featured Projects starts below the fold.
+- **Motion**: no scroll-triggered animations. Above-the-fold content fades in on load (`FadeIn`, CSS only). No GSAP or other animation library. Kept simple and recruiter friendly.
+- **Navigation**: from `md` up, a fixed left sidebar (translucent, backdrop blur, right border): burger button at the top left, then the nav links (Experience, Projects, Contact; uppercase, larger, widely spaced) centered vertically on the full viewport height (not the space below the burger) and right-aligned. Below `md`, a sticky top bar with burger left, links right. Links turn primary and shift right on hover/focus, and stay that way on the current page. The burger hides the theme toggle: clicking it turns its lines upright one by one, top to bottom, into a vertical burger, then the toggle unrolls downward beneath it (CSS only, instant under `prefers-reduced-motion`).
+- **`/experience`**: heading and a list of `site.experience` entries (newest first): period beside role, organization and description.
+- **Edge blur**: a fixed strip at the top of the content area (gradient + backdrop blur, fading downward; below the mobile top bar), matching the nav's translucent blur, softens content scrolling out. No bottom strip.
+- **Home sections**: no separator between Hero and Featured Projects.
 - **Featured Projects**: max 3 cards, selected by `featured: true` and sorted by `order`. Each card links to `/projects/[slug]`. A "More works" button links to `/projects`.
 - **`/projects`**: one page listing all projects, one project per row. Each row shows image, title, long description (MDX body, 4–5 sentences max), tech stack chips, and a GitHub button. Each row links to `/projects/[slug]`; the GitHub button links to the repo only.
 - **`/projects/[slug]`**: one detail page per project showing image, title, summary, date (if set), tech stack, long description, a GitHub button, and a back link to `/projects`. Below the image, the long description sits beside a narrower side column (2:1) with the tech stack, "My contribution" (if set) and the GitHub button.
-- **Contact** (home, `#contact`): "Get in touch" heading, short text, and one button (destination TBD; temporary mailto).
+- **`/contact`**: simple page with a heading, short text, and one "Get in touch" button (destination TBD; temporary mailto). The hero's "Contact me" button links here.
+- **Back button**: `/experience`, `/projects` and `/contact` show a thick filled back arrow (`BackButton`) left of the page title, linking home. Hover/focus: the arrow grows and turns primary.
 - **Footer**: copyright, mailto link, and social links. This is the only place email and socials appear.
-- **Theme**: light/dark toggle at the top-right of the header. First visit follows the system setting; the visitor's choice persists across reloads (`next-themes`, `.dark` class on `<html>`). Switching plays a circle reveal from the toggle (View Transitions API), instant under `prefers-reduced-motion` or without browser support.
+- **Theme**: light/dark toggle behind the nav's burger button. First visit follows the system setting; the visitor's choice persists across reloads (`next-themes`, `.dark` class on `<html>`). Switching plays a circle reveal from the toggle (View Transitions API), instant under `prefers-reduced-motion` or without browser support.
+- **Welcome screen**: once per session (sessionStorage), a full-screen "Welcome to my Portfolio" with a "Scroll or click to continue" prompt. Scroll, click, tap or any key fades it out to reveal the site (instant under `prefers-reduced-motion`).
+- **Typography**: Tailwind type scale bumped one step larger via `--text-*` overrides in `app/globals.css`.
 - **Dark mode background**: React Bits `Particles` fixed behind the whole site, tinted with theme tokens, dark mode only, static under `prefers-reduced-motion`.
 - **Out of scope**: blog, contact form, CMS, backend, metadata fields beyond those listed under Content.
 - Fully static site.
@@ -53,8 +56,7 @@
   - `/projects` rows: long description (MDX body) only.
   - `/projects/[slug]`: both `summary` and long description. `date` and `contribution` (bullet list) are shown only here.
 - `lib/projects.ts` holds the `ProjectMeta` type, `getProjects()` (reads `content/projects/` server-side, sorted by `order`), `getFeaturedProjects()` (featured, first 3) and `getProject(slug)`.
-- `content/site.ts`: typed profile data (name, role, location, tagline, email, socials, skills for the home marquee, and for `/about`: quote, skillGroups, now).
-- `content/about.mdx`: About bio.
+- `content/site.ts`: typed profile data (name, role, tagline, description, email, socials, skillGroups, experience).
 - Project images live in `public/projects/<slug>.(png|webp)` and render with `next/image`.
 
 ## Structure
@@ -62,17 +64,18 @@
 ```
 app/
   layout.tsx            # metadata, SiteHeader, SiteFooter
-  page.tsx              # Hero, SkillsMarquee, FeaturedProjects, Contact
-  about/page.tsx        # About intro, AboutSkills, AboutNow
+  page.tsx              # Hero, FeaturedProjects
+  experience/page.tsx   # site.experience entries
+  contact/page.tsx      # heading, short text, Get in touch button
   projects/page.tsx     # all projects, one ProjectRow each
   projects/[slug]/page.tsx  # project detail page
 components/
   ui/                   # shadcn components
-  site/                 # header.tsx, nav-link.tsx, footer.tsx, section-divider.tsx, ornament-divider.tsx, home-link.tsx, theme-provider.tsx, theme-toggle.tsx, particles-background.tsx
-  sections/             # hero.tsx, hero-replay.tsx, hero-terminal.tsx, about.tsx, about-thought.tsx, about-skills.tsx, about-now.tsx, skills-marquee.tsx, featured-projects.tsx, contact.tsx
+  site/                 # header.tsx, nav-link.tsx, footer.tsx, home-link.tsx, back-button.tsx, theme-provider.tsx, theme-toggle.tsx, theme-menu.tsx, particles-background.tsx, intro.tsx, fade-in.tsx
+  sections/             # hero.tsx, hero-replay.tsx, hero-skills.tsx, featured-projects.tsx
   projects/             # project-card.tsx, project-row.tsx, tech-stack.tsx
-  animations/           # React Bits components (logo-loop.tsx, lattice-loader.tsx, particles.tsx)
-content/                # site.ts, about.mdx, projects/*.mdx
+  animations/           # React Bits components (particles.tsx, text-type.tsx, magnet.tsx)
+content/                # site.ts, projects/*.mdx
 lib/                    # utils.ts, projects.ts
 mdx-components.tsx
 ```

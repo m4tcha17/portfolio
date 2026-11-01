@@ -5,16 +5,15 @@ import { getFeaturedProjects } from "@/lib/projects";
 import { cn } from "@/lib/utils";
 import { buttonVariants } from "@/components/ui/button";
 import { ProjectCard } from "@/components/projects/project-card";
-import AnimatedContent from "@/components/animations/animated-content";
 
 export async function FeaturedProjects() {
   const projects = await getFeaturedProjects();
 
   return (
     <section id="projects" className="mx-auto w-full max-w-5xl scroll-mt-16 px-4 py-16 sm:px-6">
-      <AnimatedContent distance={40} once={false}>
-        <h2 className="cursor-target mx-auto w-fit text-center font-heading text-3xl font-semibold tracking-tight text-primary sm:text-4xl">Ideas made real.</h2>
-      </AnimatedContent>
+      <div>
+        <h2 className="mx-auto w-fit text-center font-heading text-3xl font-semibold tracking-tight text-primary sm:text-4xl">Ideas made real.</h2>
+      </div>
       {/* Bento: first project is the big left tile, the other two stack on the right. */}
       {/* 16:7 grid makes every tile roughly 3:2 landscape. */}
       <ul className="mt-8 grid gap-4 sm:aspect-16/7 sm:grid-cols-3 sm:grid-rows-2">
@@ -23,10 +22,9 @@ export async function FeaturedProjects() {
             key={project.slug}
             className={cn("aspect-3/2 sm:aspect-auto", index === 0 && "sm:col-span-2 sm:row-span-2")}
           >
-            {/* Tiles rise in one after another. */}
-            <AnimatedContent distance={40} once={false} delay={index * 0.12} className="h-full">
+            <div className="h-full">
               <ProjectCard project={project} large={index === 0} />
-            </AnimatedContent>
+            </div>
           </li>
         ))}
       </ul>

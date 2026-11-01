@@ -8,12 +8,11 @@ import { getProject, getProjects } from "@/lib/projects";
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { TechStack } from "@/components/projects/tech-stack";
-import AnimatedContent from "@/components/animations/animated-content";
-import SplitText from "@/components/animations/split-text";
+import { FadeIn } from "@/components/site/fade-in";
 
 export const instant = false;
 
-/** Side column headings, styled like the /about role · location line. */
+/** Side column headings: small uppercase tracked labels. */
 const sideHeading = "text-xs font-medium tracking-[0.2em] text-muted-foreground uppercase";
 
 // `dynamicParams` is unavailable with cacheComponents; unknown slugs hit notFound().
@@ -43,9 +42,8 @@ export default async function ProjectPage({ params }: PageProps<"/projects/[slug
 
   return (
     <article className="mx-auto w-full max-w-5xl px-4 py-16 sm:px-6">
-      {/* Back link, date and title animate on load. Everything after fades up on scroll, staggered after the title on first view;
-          each block replays on every scroll down and resets only once off-screen, so scrolling up never hides it. */}
-      <AnimatedContent distance={24} trigger="mount">
+      {/* Back link, date and title fade in on load. Every block blurs out as it scrolls off the top. */}
+      <FadeIn>
         <Link
           href="/projects"
           className={cn(
@@ -60,29 +58,25 @@ export default async function ProjectPage({ params }: PageProps<"/projects/[slug
           />
           All projects
         </Link>
-      </AnimatedContent>
+      </FadeIn>
 
       <header className="mt-8">
         {project.date && (
-          <AnimatedContent distance={24} trigger="mount">
+          <FadeIn>
             <p className="text-sm font-medium text-primary">{project.date}</p>
-          </AnimatedContent>
+          </FadeIn>
         )}
-        <SplitText
-          tag="h1"
-          text={project.title}
-          trigger="load"
-          splitType="chars"
-          delay={30}
-          textAlign="left"
-          className="cursor-target mt-2 font-heading text-4xl font-semibold tracking-tight text-foreground sm:text-5xl"
-        />
-        <AnimatedContent distance={24} once={false} resetOffscreen delay={0.12}>
+        <FadeIn>
+          <h1 className="mt-2 font-heading text-4xl font-semibold tracking-tight text-foreground sm:text-5xl">
+            {project.title}
+          </h1>
+        </FadeIn>
+        <div>
           <p className="mt-4 text-lg text-muted-foreground">{project.summary}</p>
-        </AnimatedContent>
+        </div>
       </header>
 
-      <AnimatedContent distance={24} once={false} resetOffscreen delay={0.24}>
+      <div>
         <Image
           src={project.image}
           alt={`${project.title} screenshot`}
@@ -91,34 +85,34 @@ export default async function ProjectPage({ params }: PageProps<"/projects/[slug
           preload
           className="mt-10 aspect-video w-full rounded-lg bg-muted object-cover"
         />
-      </AnimatedContent>
+      </div>
 
       {/* Description beside a narrower side column (2:1); stacked on phones, description first. */}
       <div className="mt-10 grid gap-10 md:grid-cols-[minmax(0,2fr)_minmax(0,1fr)]">
-        <AnimatedContent distance={24} once={false} resetOffscreen>
+        <div>
           <Description />
-        </AnimatedContent>
+        </div>
 
         <aside className="flex flex-col gap-8">
-          <AnimatedContent distance={24} once={false} resetOffscreen>
+          <div>
             <h2 className={sideHeading}>Tech stack</h2>
             <div className="mt-3">
               <TechStack tech={project.tech} />
             </div>
-          </AnimatedContent>
+          </div>
 
           {project.contribution && project.contribution.length > 0 && (
-            <AnimatedContent distance={24} once={false} resetOffscreen>
+            <div>
               <h2 className={sideHeading}>My contribution</h2>
               <ul className="mt-3 list-disc space-y-2 pl-5 text-sm leading-6 text-muted-foreground marker:text-primary">
                 {project.contribution.map((item) => (
                   <li key={item}>{item}</li>
                 ))}
               </ul>
-            </AnimatedContent>
+            </div>
           )}
 
-          <AnimatedContent distance={24} once={false} resetOffscreen>
+          <div>
             <a
               href={project.github}
               target="_blank"
@@ -132,7 +126,7 @@ export default async function ProjectPage({ params }: PageProps<"/projects/[slug
               />
               View on GitHub
             </a>
-          </AnimatedContent>
+          </div>
         </aside>
       </div>
     </article>

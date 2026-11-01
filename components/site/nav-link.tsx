@@ -7,12 +7,12 @@ import type { ComponentProps } from "react";
 import { cn } from "@/lib/utils";
 
 /**
- * Header nav link marked `aria-current="page"` while on its page or a page below it
- * (`/projects/[slug]` keeps Projects active). Hash links (`/#contact`) only scroll, so they never
+ * Nav link marked `aria-current="page"` while on its page or a page below it
+ * (`/projects/[slug]` keeps Projects active). Hash links (e.g. `/#projects`) only scroll, so they never
  * count as the current page.
  *
  * On the home page, a hash link scrolls to its section itself: next/link skips a navigation to the
- * URL already shown, so a second click on `/#contact` would otherwise do nothing.
+ * URL already shown, so a second click on a hash link would otherwise do nothing.
  */
 export function NavLink({ href, className, onClick, ...props }: ComponentProps<typeof Link> & { href: string }) {
   const pathname = usePathname();
@@ -33,7 +33,7 @@ export function NavLink({ href, className, onClick, ...props }: ComponentProps<t
         window.history.replaceState(window.history.state, "", href);
       }}
       aria-current={active ? "page" : undefined}
-      className={cn(className, active && "text-primary after:scale-x-100")}
+      className={cn(className, active && "translate-x-1.5 text-primary")}
       {...props}
     />
   );

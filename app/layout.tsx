@@ -8,7 +8,7 @@ import { SiteHeader } from "@/components/site/header";
 import { SiteFooter } from "@/components/site/footer";
 import { ThemeProvider } from "@/components/site/theme-provider";
 import { ParticlesBackground } from "@/components/site/particles-background";
-import TargetCursor from "@/components/animations/target-cursor";
+import { Intro, IntroScript } from "@/components/site/intro";
 
 const publicSans = Public_Sans({subsets:['latin'],variable:'--font-sans'});
 
@@ -22,7 +22,7 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-const siteName = stripHighlights(site.siteName);
+const siteName = stripHighlights(site.name);
 
 export const metadata: Metadata = {
   title: {
@@ -34,7 +34,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    // Smooth scrolling for in-page anchors (#projects, #contact, back to top), off under prefers-reduced-motion.
+    // Smooth scrolling for in-page anchors (#projects, back to top), off under prefers-reduced-motion.
     // data-scroll-behavior lets Next.js disable it during route navigations so page changes still jump to the top.
     // suppressHydrationWarning: next-themes sets the theme class on <html> before hydration.
     <html
@@ -43,32 +43,20 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       data-scroll-behavior="smooth"
       className={cn("h-full", "antialiased", "motion-safe:scroll-smooth", geistSans.variable, geistMono.variable, "font-sans", publicSans.variable)}
     >
-      <body className="min-h-full flex flex-col bg-background text-foreground">
+      <body className="min-h-full flex flex-col bg-background text-foreground md:pl-56">
+        {/* Before any content: decides whether the welcome screen shows, so it never flashes. */}
+        <IntroScript />
         <ThemeProvider>
           <ParticlesBackground />
+          <Intro />
           <SiteHeader />
           <main className="flex flex-1 flex-col">{children}</main>
           <SiteFooter />
-          {/* Reticle locks onto links, buttons and `.cursor-target` elements. Nav and footer links are excluded
-              unless marked `.cursor-target` (nav items, back to top), and so are links inside a `.cursor-target`, so `/projects` rows are framed whole,
-              GitHub button included. Fine pointers only. */}
-          {/* Exclusion blend inverts against the page; --cursor (dot) and --cursor-corners (brackets, mid grey) are set per theme. */}
-          <TargetCursor
-            targetSelector="a:not(.cursor-target a, nav a, footer a), button:not(footer button), .cursor-target"
-            cursorColor="var(--cursor)"
-            cornerColor="var(--cursor-corners)"
-            blendMode="exclusion"
-            size={24}
-            padding={3}
-            parallaxOn={false}
-            hideDefaultCursor
-            spinDuration={2.5}
-            cornerSize={8}
-            dotSize={4}
-            hoverDuration={0.12}
-            thickness={2}
-            matchRadius={false}
-            clickEffect={false}
+          {/* Top edge: translucent blur fading downward, so content softens as it scrolls out. Sits under the mobile top bar
+              (h-14 + 1px border); from md, at the very top beside the sidebar. */}
+          <div
+            aria-hidden
+            className="pointer-events-none fixed inset-x-0 top-[calc(3.5rem+1px)] z-30 h-16 bg-linear-to-b from-background/80 to-transparent backdrop-blur mask-b-from-50% md:top-0 md:left-56"
           />
         </ThemeProvider>
       </body>

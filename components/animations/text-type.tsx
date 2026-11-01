@@ -10,7 +10,6 @@ import {
   useRef,
   useState
 } from 'react';
-import { gsap } from 'gsap';
 
 interface TextTypeProps {
   className?: string;
@@ -169,8 +168,8 @@ const TextType = ({
   const caretRef = useRef<HTMLSpanElement>(null);
   const cursorRef = useRef<HTMLSpanElement>(null);
   const blinkRef = useRef<HTMLSpanElement>(null);
-  const blinkTimeline = useRef<ReturnType<typeof gsap.timeline> | null>(null);
-  const blinkResume = useRef<ReturnType<typeof gsap.delayedCall> | null>(null);
+  // Portfolio edit: GSAP replaced with the native Web Animations API (blink + caret glide), so GSAP is not a dependency.
+  const blinkAnimation = useRef<Animation | null>(null);
   const caretPosition = useRef<{ x: number; y: number } | null>(null);
   const placeCursor = useRef<(instant: boolean) => void>(() => {});
   const lastTypo = useRef(-1);
@@ -223,22 +222,24 @@ const TextType = ({
   useEffect(() => {
     const blink = blinkRef.current;
     if (!showCursor || !blink) return;
-    gsap.set(blink, { opacity: 1 });
     if (reduceMotion || cursorBlinkDuration <= 0) return;
 
-    const hold = cursorBlinkDuration * 0.7;
-    const fade = cursorBlinkDuration * 0.45;
-    const timeline = gsap.timeline({ repeat: -1 });
-    timeline
-      .to(blink, { opacity: 0, duration: fade, ease: 'sine.inOut' }, hold)
-      .to(blink, { opacity: 1, duration: fade, ease: 'sine.inOut' }, hold + fade + cursorBlinkDuration * 0.4);
-    blinkTimeline.current = timeline;
+    // Same cycle as the original GSAP timeline: hold 0.7, fade out 0.45, off 0.4, fade in 0.45 (x duration).
+    const animation = blink.animate(
+      [
+        { opacity: 1, offset: 0 },
+        { opacity: 1, offset: 0.35, easing: 'ease-in-out' },
+        { opacity: 0, offset: 0.575 },
+        { opacity: 0, offset: 0.775, easing: 'ease-in-out' },
+        { opacity: 1, offset: 1 }
+      ],
+      { duration: cursorBlinkDuration * 2000, iterations: Infinity }
+    );
+    blinkAnimation.current = animation;
 
     return () => {
-      timeline.kill();
-      blinkResume.current?.kill();
-      gsap.killTweensOf(blink);
-      blinkTimeline.current = null;
+      animation.cancel();
+      blinkAnimation.current = null;
     };
   }, [showCursor, cursorBlinkDuration, reduceMotion]);
 
@@ -258,20 +259,22 @@ const TextType = ({
       if (last && Math.abs(last.x - x) < 0.5 && Math.abs(last.y - y) < 0.5) return;
       caretPosition.current = { x, y };
 
-      if (instant || !last || !cursorGlide || reduceMotion || Math.abs(last.y - y) > 1) {
-        gsap.killTweensOf(cursor);
-        gsap.set(cursor, { x, y });
-      } else {
-        gsap.to(cursor, { x, y, duration: glideTime, ease: 'power3.out', overwrite: true });
+      const to = `translate(${x}px, ${y}px)`;
+      const from = getComputedStyle(cursor).transform;
+      cursor.getAnimations().forEach(animation => animation.cancel());
+      cursor.style.transform = to;
+      if (!(instant || !last || !cursorGlide || reduceMotion || Math.abs(last.y - y) > 1) && from !== 'none') {
+        // power3.out
+        cursor.animate([{ transform: from }, { transform: to }], {
+          duration: glideTime * 1000,
+          easing: 'cubic-bezier(0.215, 0.61, 0.355, 1)'
+        });
       }
 
-      const timeline = blinkTimeline.current;
-      const blink = blinkRef.current;
-      if (instant || !timeline || !blink) return;
-      timeline.pause();
-      blinkResume.current?.kill();
-      gsap.to(blink, { opacity: 1, duration: 0.12, ease: 'power1.out' });
-      blinkResume.current = gsap.delayedCall(0.12, () => timeline.restart());
+      // Typing keeps the cursor solid: restart the blink cycle, which opens with its visible hold.
+      const blink = blinkAnimation.current;
+      if (instant || !blink) return;
+      blink.currentTime = 0;
     };
     placeCursor.current(false);
   });

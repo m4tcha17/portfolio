@@ -1,40 +1,38 @@
-import { site } from "@/content/site";
-import { HomeLink } from "@/components/site/home-link";
 import { NavLink } from "@/components/site/nav-link";
-import { ThemeToggle } from "@/components/site/theme-toggle";
+import { ThemeMenu } from "@/components/site/theme-menu";
 
 const navItems = [
-  { label: "About", href: "/about" },
+  { label: "Experience", href: "/experience" },
   { label: "Projects", href: "/projects" },
-  { label: "Contact", href: "/#contact" },
+  { label: "Contact", href: "/contact" },
 ];
 
+/**
+ * Site navigation. From `md` up: a fixed sidebar on the left with the burger (hides the theme toggle) top left and
+ * the links stacked right-aligned in the vertical center of the full sidebar height; the layout pads content by its width (`md:pl-56`). Below `md`: a sticky
+ * top bar, burger on the left and links on the right, since a sidebar would eat the narrow viewport.
+ */
 export function SiteHeader() {
   return (
-    <header className="sticky top-0 z-40 border-b border-border bg-background/80 backdrop-blur">
-      <div className="mx-auto flex h-14 w-full max-w-5xl items-center justify-between gap-4 px-4 sm:px-6">
-        <HomeLink className="font-heading text-base font-semibold tracking-tight text-foreground" data-cursor-padding="5">
-          {site.siteName}
-        </HomeLink>
-        <div className="flex items-center gap-4 sm:gap-10">
-          <nav aria-label="Main">
-            <ul className="flex items-center gap-4 text-sm text-muted-foreground sm:gap-10">
-              {navItems.map((item) => (
-                <li key={item.href}>
-                  {/* Hover/focus: text turns primary and an underline grows left to right (scale-x from origin-left). NavLink keeps both on the current page. */}
-                  <NavLink
-                    href={item.href}
-                    data-cursor-padding="8"
-                    className="cursor-target relative inline-block transition-colors duration-300 after:absolute after:inset-x-0 after:-bottom-1 after:h-0.5 after:origin-left after:scale-x-0 after:bg-primary after:transition-transform after:duration-300 hover:text-primary hover:after:scale-x-100 focus-visible:text-primary focus-visible:after:scale-x-100 motion-reduce:after:transition-none"
-                  >
-                    {item.label}
-                  </NavLink>
-                </li>
-              ))}
-            </ul>
-          </nav>
-          <ThemeToggle />
-        </div>
+    <header className="sticky top-0 z-40 border-b border-border bg-background/80 backdrop-blur md:fixed md:inset-y-0 md:left-0 md:w-56 md:border-r md:border-b-0">
+      <div className="flex h-14 w-full items-center justify-between gap-4 px-4 sm:px-6 md:relative md:h-full md:flex-col md:items-stretch md:justify-start md:px-6 md:py-8">
+        {/* From md: out of the flow, so the links center on the full sidebar height rather than the space below it. */}
+        <ThemeMenu className="md:absolute md:top-8 md:left-6 md:z-10" />
+        <nav aria-label="Main" className="md:flex md:flex-1 md:flex-col md:justify-center">
+          <ul className="flex items-center gap-4 text-xs font-medium tracking-[0.2em] text-muted-foreground uppercase sm:gap-8 md:flex-col md:items-end md:gap-12 md:text-base">
+            {navItems.map((item) => (
+              <li key={item.href}>
+                {/* Hover/focus: text turns primary and shifts right. NavLink keeps both on the current page. */}
+                <NavLink
+                  href={item.href}
+                  className="inline-block transition-[color,translate] duration-300 ease-out hover:translate-x-1.5 hover:text-primary focus-visible:translate-x-1.5 focus-visible:text-primary motion-reduce:transition-colors motion-reduce:hover:translate-x-0 motion-reduce:focus-visible:translate-x-0"
+                >
+                  {item.label}
+                </NavLink>
+              </li>
+            ))}
+          </ul>
+        </nav>
       </div>
     </header>
   );
