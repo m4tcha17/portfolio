@@ -3,6 +3,9 @@
 @import "shadcn/tailwind.css";
 
 @custom-variant dark (&:is(.dark *));
+/* Featured Projects: the expanded panel (and its contents). Hovered or keyboard-focused
+   panel; when none is, the first panel stays expanded. */
+@custom-variant panel-open (&:is(.panel:hover, .panel:hover *, .panel:has(:focus-visible), .panel:has(:focus-visible) *, .panels:not(:hover, :has(:focus-visible)) > .panel:first-child, .panels:not(:hover, :has(:focus-visible)) > .panel:first-child *));
 
 @theme inline {
   --color-background: var(--background);

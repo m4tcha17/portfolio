@@ -22,7 +22,7 @@
 
 - **Home `/`**: single scrolling page with sections Hero, Featured Projects.
 - **Hero**: typed availability line (`site.availability`) with a pulsing green dot (`--available` token, static under `prefers-reduced-motion`), name (the page's h1), a small location · timezone · live local time line (`site.location`, `site.timezone`, `LocalTime` in Asia/Manila), description, two buttons ("View projects", and "Resume" opening `site.resume` (`public/resume.pdf`) in a new tab), then Skills at the bottom: `site.skillGroups` in four categories (Languages, Libraries & Frameworks, Backend & Infrastructure, Environment & Tooling), chips per group.
-- **Tech chips** (`TechStack`, used in hero Skills, `/projects` rows and detail pages): square (no rounding), logo left and name right; logos are monochrome Simple Icons mapped in `lib/tech-icons.ts`, names without a logo stay text-only.
+- **Tech chips** (`TechStack`, used in hero Skills, Featured Projects panels, `/projects` rows and detail pages): square (no rounding), logo left and name right; logos are monochrome Simple Icons mapped in `lib/tech-icons.ts`, names without a logo stay text-only.
 - **Text selection**: disabled site-wide (`select-none` on `body`).
 - **First screen**: Hero fills the viewport (below the mobile top bar); Featured Projects starts below the fold.
 - **Motion**: no scroll-triggered animations. Above-the-fold content fades in on load (`FadeIn`, CSS only). No GSAP or other animation library. Kept simple and recruiter friendly.
@@ -30,7 +30,7 @@
 - **`/experience`**: heading and a list of `site.experience` entries (newest first): period beside role, organization and description.
 - **Edge blur**: a fixed strip at the top of the content area (gradient + backdrop blur, fading downward; below the mobile top bar), matching the nav's translucent blur, softens content scrolling out. No bottom strip.
 - **Home sections**: no separator between Hero and Featured Projects.
-- **Featured Projects**: max 3 cards, selected by `featured: true` and sorted by `order`. Each card links to `/projects/[slug]`. A "More works" button links to `/projects`.
+- **Featured Projects**: header row with "Featured Projects" (left) and a "More works" button linking to `/projects` (right). Max 3 cards, selected by `featured: true` and sorted by `order`, shown as three side-by-side panels (stacked below `sm`). Collapsed panels show a dimmed grayscale image with an index ("01") and the title over a light bottom gradient. The open panel (hovered/focused, else the first) is 3x wider, full color, and shows the tech stack (same light gradient as collapsed, no extra blur); hovering the title shifts its arrow up-right. Touch screens always show color and tech stack. CSS only (`panel-open` variant in `app/globals.css`). Each card links to `/projects/[slug]`.
 - **`/projects`**: one page listing all projects, one project per row. Each row shows image, title, long description (MDX body, 4–5 sentences max), tech stack chips, and a GitHub button. Each row links to `/projects/[slug]`; the GitHub button links to the repo only.
 - **`/projects/[slug]`**: one detail page per project showing image, title, summary, date (if set), tech stack, long description, a GitHub button, and a back link to `/projects`. Below the image, the long description sits beside a narrower side column (2:1) with the tech stack, "My contribution" (if set) and the GitHub button.
 - **`/contact`**: simple page with a heading, short text, and one "Get in touch" button (destination TBD; temporary mailto).
@@ -52,9 +52,9 @@
 
 ## Content
 
-- Each project is one file in `content/projects/<slug>.mdx`. It exports `metadata` (`title`, `summary`, `image`, `tech`, `github`, `featured`, `order`, optional `date`, optional `contribution`) and its body is the long description.
+- Each project is one file in `content/projects/<slug>.mdx`. It exports `metadata` (`title`, `summary`, `image`, optional `imagePosition` (cover crop focus), `tech`, `github`, `featured`, `order`, optional `date`, optional `contribution`) and its body is the long description.
 - Rendering rule:
-  - Home Featured Projects cards: `summary` only.
+  - Home Featured Projects cards: title and tech stack only (`imagePosition` applies here).
   - `/projects` rows: long description (MDX body) only.
   - `/projects/[slug]`: both `summary` and long description. `date` and `contribution` (bullet list) are shown only here.
 - `lib/projects.ts` holds the `ProjectMeta` type, `getProjects()` (reads `content/projects/` server-side, sorted by `order`), `getFeaturedProjects()` (featured, first 3) and `getProject(slug)`.

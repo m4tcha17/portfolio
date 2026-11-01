@@ -4,10 +4,12 @@ import type { MDXContent } from "mdx/types";
 
 export type ProjectMeta = {
   title: string;
-  /** Short blurb shown only on the home Featured Projects cards. */
+  /** Short blurb shown only on the project detail page. */
   summary: string;
   /** Path under /public, e.g. "/projects/filmshelf.png". */
   image: string;
+  /** CSS object-position for cover crops, e.g. "left top". Default "center". */
+  imagePosition?: string;
   tech: string[];
   github: string;
   featured: boolean;

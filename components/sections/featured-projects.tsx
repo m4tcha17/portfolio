@@ -2,7 +2,6 @@ import Link from "next/link";
 import { ArrowRightIcon } from "@phosphor-icons/react/ssr";
 
 import { getFeaturedProjects } from "@/lib/projects";
-import { cn } from "@/lib/utils";
 import { buttonVariants } from "@/components/ui/button";
 import { ProjectCard } from "@/components/projects/project-card";
 
@@ -11,25 +10,9 @@ export async function FeaturedProjects() {
 
   return (
     <section id="projects" className="mx-auto w-full max-w-5xl scroll-mt-16 px-4 py-16 sm:px-6">
-      <div>
-        <h2 className="mx-auto w-fit text-center font-heading text-3xl font-semibold tracking-tight text-primary sm:text-4xl">Ideas made real.</h2>
-      </div>
-      {/* Bento: first project is the big left tile, the other two stack on the right. */}
-      {/* 16:7 grid makes every tile roughly 3:2 landscape. */}
-      <ul className="mt-8 grid gap-4 sm:aspect-16/7 sm:grid-cols-3 sm:grid-rows-2">
-        {projects.map((project, index) => (
-          <li
-            key={project.slug}
-            className={cn("aspect-3/2 sm:aspect-auto", index === 0 && "sm:col-span-2 sm:row-span-2")}
-          >
-            <div className="h-full">
-              <ProjectCard project={project} large={index === 0} />
-            </div>
-          </li>
-        ))}
-      </ul>
-      <div className="mt-10 flex justify-center">
-        <Link href="/projects" className={buttonVariants({ size: "lg", variant: "quiet" })}>
+      <div className="flex items-end justify-between gap-4">
+        <h2 className="font-heading text-3xl font-semibold tracking-tight sm:text-4xl">Featured Projects</h2>
+        <Link href="/projects" className={buttonVariants({ variant: "quiet" })}>
           More works
           <ArrowRightIcon
             data-icon="inline-end"
@@ -38,6 +21,18 @@ export async function FeaturedProjects() {
           />
         </Link>
       </div>
+      {/* Expanding panels (`panels`/`panel` drive the `panel-open` variant in globals.css):
+          the hovered/focused panel widens to 3x; with none, the first stays open. Stacked below sm. */}
+      <ul className="panels mt-8 flex flex-col gap-1.5 sm:h-112 sm:flex-row">
+        {projects.map((project, index) => (
+          <li
+            key={project.slug}
+            className="panel aspect-3/2 transition-[flex] duration-500 ease-out sm:aspect-auto sm:min-w-0 sm:flex-1 sm:panel-open:flex-3 motion-reduce:transition-none"
+          >
+            <ProjectCard project={project} index={index + 1} />
+          </li>
+        ))}
+      </ul>
     </section>
   );
 }

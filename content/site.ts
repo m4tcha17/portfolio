@@ -46,7 +46,7 @@ export const site: SiteConfig = {
   location: "Cebu City, PHL",
   timezone: "GMT+8",
   tagline: "Engineering digital [experiences] from [screen] to [foundation.]",
-  description: "I am a 21 year old software developer [studying at the University of San Carlos], specializing in [frontend development] while learning full-stack development. I daily drive [Linux] for system efficiency and workflow customization, I am also proficient in [core system administration] and [terminal operations].",
+  description: "I am a 21 year old software developer [studying at the University of San Carlos], specializing in [frontend development] while learning full-stack development. I daily drive [Linux] for system efficiency and workflow customization, and I am also familiar in [core system administration] and [terminal operations].",
   email: "angjames2812@gmail.com",
   resume: "/resume.pdf",
   socials: [
@@ -57,7 +57,7 @@ export const site: SiteConfig = {
     { title: "Languages", items: ["TypeScript", "Javascript", "C", "Python"] },
     { title: "Libraries & Frameworks", items: ["React", "Next.js", "Tailwind CSS", "shadcn/ui", "Expo"] },
     { title: "Backend & Infrastructure", items: ["Node.js", "Supabase", "PostgreSQL / SQL"] },
-    { title: "Environment & Tooling", items: ["Linux / Bash", "Git", "pnpm", "Github"] },
+    { title: "Environment & Tooling", items: ["Linux / Bash", "Git", "Github"] },
   ],
   experience: [
     {
