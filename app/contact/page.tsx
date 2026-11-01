@@ -1,10 +1,7 @@
 import type { Metadata } from "next";
-import { ArrowRightIcon } from "@phosphor-icons/react/ssr";
+import { ArrowUpRightIcon } from "@phosphor-icons/react/ssr";
 
 import { site } from "@/content/site";
-import { cn } from "@/lib/utils";
-import { buttonVariants } from "@/components/ui/button";
-import Magnet from "@/components/animations/magnet";
 import { FadeIn } from "@/components/site/fade-in";
 import { BackButton } from "@/components/site/back-button";
 import { PageTransition } from "@/components/site/page-transition";
@@ -13,36 +10,57 @@ export const metadata: Metadata = {
   title: "Contact",
 };
 
-// Contact button stays one step smaller than the shared `lg` size.
-const contactButtonSize =
-  "h-10 gap-1.5 px-4 text-sm has-data-[icon=inline-end]:pr-3 has-data-[icon=inline-start]:pl-3 [&_svg:not([class*='size-'])]:size-4";
+/** Email first, then every social profile. Only email stays in the same tab. */
+const links = [
+  { label: "Email", href: `mailto:${site.email}`, external: false },
+  ...site.socials.map(({ label, href }) => ({ label, href, external: true })),
+];
 
-// TODO: destination still undecided; mailto is a temporary placeholder.
-const getInTouchHref = `mailto:${site.email}`;
-
-/** Simple contact page: heading, short text, one "Get in touch" button. Email and social links live in SiteFooter. */
+/**
+ * Contact page: no copy, just big link rows (label, arrow) for email and socials, then a centered plain-text
+ * Download resume link.
+ * The h1 is visually hidden for screen readers. `data-hide-footer` hides SiteFooter here.
+ */
 export default function ContactPage() {
   return (
     <PageTransition>
-      <section className="mx-auto w-full max-w-4xl px-4 py-16 sm:px-6">
+      <section data-hide-footer className="mx-auto w-full max-w-4xl px-4 py-16 sm:px-6">
         <FadeIn>
+          <h1 className="sr-only">Contact</h1>
           {/* -ml cancels the button's inner padding so the arrow lines up with the content edge. */}
-          <div className="-ml-2 flex items-center gap-2 sm:-ml-3 sm:gap-3">
-            <BackButton />
-            <h1 className="font-heading text-4xl font-semibold tracking-tight text-foreground sm:text-5xl">
-              Have a vision worth creating?
-            </h1>
-          </div>
-          <p className="mt-4 w-fit max-w-2xl text-muted-foreground">
-            Turn your vision into reality, built with precision and efficiency.
-          </p>
-          <div className="mt-8">
-            <Magnet padding={0} magnetStrength={4} maxOffset={12}>
-              <a href={getInTouchHref} className={cn(buttonVariants({ size: "lg" }), contactButtonSize)}>
-                Get in touch
-                <ArrowRightIcon data-icon="inline-end" aria-hidden />
-              </a>
-            </Magnet>
+          <BackButton className="-ml-2 sm:-ml-3" />
+
+          <ul className="mt-8">
+            {links.map(({ label, href, external }) => (
+              <li key={label} className="border-b border-border last:border-b-0">
+                {/* Hover/focus: label turns primary and shifts right (like the nav links), and the arrow moves up-right. */}
+                <a
+                  href={href}
+                  {...(external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+                  className="group flex items-center justify-between gap-4 py-6 font-heading text-4xl font-semibold tracking-tight text-foreground uppercase transition-colors duration-300 outline-none hover:text-primary focus-visible:text-primary sm:py-8 sm:text-6xl"
+                >
+                  <span className="transition-[translate] duration-300 ease-out group-hover:translate-x-1.5 group-focus-visible:translate-x-1.5 motion-reduce:transition-none motion-reduce:translate-x-0!">
+                    {label}
+                  </span>
+                  <ArrowUpRightIcon
+                    weight="bold"
+                    aria-hidden
+                    className="size-8 shrink-0 text-muted-foreground transition-[color,translate] duration-300 ease-out group-hover:translate-x-1 group-hover:-translate-y-1 group-hover:text-primary group-focus-visible:translate-x-1 group-focus-visible:-translate-y-1 group-focus-visible:text-primary motion-reduce:transition-colors motion-reduce:translate-0! sm:size-10"
+                  />
+                </a>
+              </li>
+            ))}
+          </ul>
+
+          {/* Plain text, light weight; hover/focus brightens it and enlarges it slightly. */}
+          <div className="mt-16 flex justify-center">
+            <a
+              href={site.resume}
+              download
+              className="inline-block font-heading text-3xl font-semibold tracking-tight text-muted-foreground uppercase transition-[color,scale] duration-300 ease-out outline-none hover:scale-110 hover:text-foreground focus-visible:scale-110 focus-visible:text-foreground motion-reduce:transition-colors motion-reduce:scale-100! sm:text-4xl"
+            >
+              Download resume
+            </a>
           </div>
         </FadeIn>
       </section>

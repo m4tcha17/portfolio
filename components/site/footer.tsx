@@ -11,9 +11,10 @@ import { BackToTop } from "@/components/site/back-to-top";
 const ICON_LIFT =
   "transition-[color,translate] duration-300 group-hover:-translate-y-0.5 group-hover:text-primary group-focus-visible:-translate-y-0.5 group-focus-visible:text-primary motion-reduce:transition-none motion-reduce:translate-y-0!";
 
+/** Hidden on pages that render a `data-hide-footer` element (the contact page). */
 export function SiteFooter() {
   return (
-    <footer className="border-t border-border">
+    <footer className="border-t border-border [body:has([data-hide-footer])_&]:hidden">
       <div className="mx-auto flex w-full max-w-5xl flex-col items-center justify-between gap-4 px-4 py-10 text-sm text-muted-foreground sm:flex-row sm:px-6">
         <div className="flex flex-col gap-1 text-center sm:text-left">
           <p>

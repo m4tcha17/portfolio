@@ -1,4 +1,4 @@
-export type SocialPlatform = "github" | "linkedin";
+export type SocialPlatform = "github" | "linkedin" | "facebook";
 
 export type SocialLink = {
   platform: SocialPlatform;
@@ -75,6 +75,7 @@ export const site: SiteConfig = {
   socials: [
     { platform: "github", label: "GitHub", href: "https://github.com/m4tcha17" },
     { platform: "linkedin", label: "LinkedIn", href: "https://www.linkedin.com/in/james-ang-/" },
+    { platform: "facebook", label: "Facebook", href: "https://www.facebook.com/james.ang.33046/" },
   ],
   skillGroups: [
     { title: "Languages", items: ["TypeScript", "Javascript", "C", "Python"] },
