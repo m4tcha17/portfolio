@@ -3,6 +3,21 @@
 @import "shadcn/tailwind.css";
 
 @custom-variant dark (&:is(.dark *));
+/* hover: real hover on mouse/trackpad; on touch screens (no hover) the same styles apply while pressed and held, so
+   every hover animation (fills, arrow nudges, nav color) also plays on a long press. iOS only fires :active when the page
+   has a touchstart listener; Lenis registers one on the window. */
+@custom-variant hover {
+  @media (hover: hover) {
+    &:hover {
+      @slot;
+    }
+  }
+  @media (hover: none) {
+    &:active {
+      @slot;
+    }
+  }
+}
 /* Featured Projects: the expanded panel (and its contents). Hovered or keyboard-focused
    panel; when none is, the first panel stays expanded. */
 @custom-variant panel-open (&:is(.panel:hover, .panel:hover *, .panel:has(:focus-visible), .panel:has(:focus-visible) *, .panels:not(:hover, :has(:focus-visible)) > .panel:first-child, .panels:not(:hover, :has(:focus-visible)) > .panel:first-child *));

@@ -101,21 +101,39 @@ const arbitrate = () => {
 };
 
 const attach = () => {
+  // Touch has no hover: the pull follows the finger only while it is held down on the screen.
+  let touching = false;
   const onPointerMove = (event: PointerEvent) => {
-    if (event.pointerType === 'touch') return;
+    if (event.pointerType === 'touch' && !touching) return;
     field.pointer = { x: event.clientX, y: event.clientY };
     arbitrate();
+  };
+  const onPointerDown = (event: PointerEvent) => {
+    if (event.pointerType !== 'touch') return;
+    touching = true;
+    onPointerMove(event);
   };
   const onLeave = () => {
     field.pointer = null;
     arbitrate();
   };
+  const onTouchEnd = (event: PointerEvent) => {
+    if (event.pointerType !== 'touch') return;
+    touching = false;
+    onLeave();
+  };
   window.addEventListener('pointermove', onPointerMove, { passive: true });
+  window.addEventListener('pointerdown', onPointerDown, { passive: true });
+  window.addEventListener('pointerup', onTouchEnd, { passive: true });
+  window.addEventListener('pointercancel', onTouchEnd, { passive: true });
   window.addEventListener('scroll', arbitrate, { passive: true, capture: true });
   document.documentElement.addEventListener('pointerleave', onLeave);
   window.addEventListener('blur', onLeave);
   return () => {
     window.removeEventListener('pointermove', onPointerMove);
+    window.removeEventListener('pointerdown', onPointerDown);
+    window.removeEventListener('pointerup', onTouchEnd);
+    window.removeEventListener('pointercancel', onTouchEnd);
     window.removeEventListener('scroll', arbitrate, { capture: true });
     document.documentElement.removeEventListener('pointerleave', onLeave);
     window.removeEventListener('blur', onLeave);

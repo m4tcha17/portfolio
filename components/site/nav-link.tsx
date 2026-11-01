@@ -28,7 +28,7 @@ export function NavLink({ href, className, onClick, ...props }: ComponentProps<t
       <HomeLink
         onClick={onClick}
         aria-current={pathname === "/" ? "page" : undefined}
-        className={cn(className, pathname === "/" && "translate-x-1.5 text-primary")}
+        className={cn(className, pathname === "/" && "md:translate-x-1.5 text-primary")}
         {...props}
       />
     );
@@ -50,7 +50,7 @@ export function NavLink({ href, className, onClick, ...props }: ComponentProps<t
         window.history.replaceState(window.history.state, "", href);
       }}
       aria-current={active ? "page" : undefined}
-      className={cn(className, active && "translate-x-1.5 text-primary")}
+      className={cn(className, active && "md:translate-x-1.5 text-primary")}
       {...props}
     />
   );

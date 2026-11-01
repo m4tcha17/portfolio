@@ -53,12 +53,12 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
           <SiteHeader />
           <main className="flex flex-1 flex-col">{children}</main>
           <SiteFooter />
-          {/* Top edge: translucent blur fading downward, so content softens as it scrolls out. Sits under the mobile top bar
-              (h-14 + 1px border); from md, at the very top beside the sidebar. Named so it stays on top of sliding pages
+          {/* Top edge (md and up only): translucent blur fading downward at the very top beside the sidebar, so content
+              softens as it scrolls out. Below md the top bar's own blur is enough. Named so it stays on top of sliding pages
               (see page transitions in globals.css). */}
           <div
             aria-hidden
-            className="vt-edge-blur pointer-events-none fixed inset-x-0 top-[calc(3.5rem+1px)] z-30 h-16 bg-linear-to-b from-background/80 to-transparent backdrop-blur mask-b-from-50% md:top-0 md:left-56"
+            className="vt-edge-blur pointer-events-none fixed inset-x-0 top-0 z-30 hidden h-16 bg-linear-to-b from-background/80 to-transparent backdrop-blur mask-b-from-50% md:left-56 md:block"
           />
         </ThemeProvider>
       </body>

@@ -19,12 +19,12 @@ const links = [
 /**
  * Contact page: no copy, just big link rows (label, arrow) for email and socials, then a centered plain-text
  * Download resume link.
- * The h1 is visually hidden for screen readers. `data-hide-footer` hides SiteFooter here.
+ * The h1 is visually hidden for screen readers. SiteFooter hides itself here (`FooterVisibility`).
  */
 export default function ContactPage() {
   return (
     <PageTransition>
-      <section data-hide-footer className="mx-auto w-full max-w-4xl px-4 py-16 sm:px-6">
+      <section className="mx-auto w-full max-w-4xl px-4 py-16 sm:px-6">
         <FadeIn>
           <h1 className="sr-only">Contact</h1>
           {/* -ml cancels the button's inner padding so the arrow lines up with the content edge. */}

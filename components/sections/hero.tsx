@@ -34,16 +34,16 @@ export function Hero() {
               mistakes={0.2}
               typingSpeed={30}
               deletingSpeed={30}
-              className="text-[1.25rem] font-medium text-primary"
+              className="text-base font-medium text-primary sm:text-[1.25rem]"
             />
           </div>
           <FadeIn delay={0.15}>
-            <h1 className="mt-3 w-fit font-heading text-6xl font-semibold tracking-tight text-foreground sm:text-[5.25rem] sm:leading-none">
+            <h1 className="mt-3 w-fit font-heading text-5xl font-semibold tracking-tight text-foreground sm:text-[5.25rem] sm:leading-none">
               <Highlight text={site.name} />
             </h1>
           </FadeIn>
           <FadeIn delay={0.2}>
-            <p className="mt-3 text-base text-muted-foreground">
+            <p className="mt-3 text-sm text-muted-foreground sm:text-base">
               {site.location}
               <span aria-hidden className="mx-2">·</span>
               {site.timezone}
@@ -52,7 +52,7 @@ export function Hero() {
             </p>
           </FadeIn>
           <FadeIn delay={0.3}>
-            <p className="mt-6 w-fit max-w-3xl text-[1.5rem] leading-snug text-muted-foreground">
+            <p className="mt-6 w-fit max-w-3xl text-base leading-snug sm:text-[1.5rem] text-muted-foreground">
               <Highlight text={site.description} />
             </p>
           </FadeIn>
