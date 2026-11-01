@@ -22,6 +22,7 @@
   --color-sidebar-foreground: var(--sidebar-foreground);
   --color-sidebar: var(--sidebar);
   --color-chart-5: var(--chart-5);
+  --color-available: var(--available);
   --color-chart-4: var(--chart-4);
   --color-chart-3: var(--chart-3);
   --color-chart-2: var(--chart-2);
@@ -89,6 +90,7 @@
   --chart-3: oklch(0.442 0.017 285.786);
   --chart-4: oklch(0.37 0.013 285.805);
   --chart-5: oklch(0.274 0.006 286.033);
+  --available: oklch(0.627 0.194 149.214);
   --radius: 0.625rem;
   --scrim: oklch(0.141 0.005 285.823);
   --scrim-foreground: oklch(0.985 0 0);
@@ -128,6 +130,7 @@
   --chart-3: oklch(0.442 0.017 285.786);
   --chart-4: oklch(0.37 0.013 285.805);
   --chart-5: oklch(0.274 0.006 286.033);
+  --available: oklch(0.723 0.219 149.579);
   /* Terminal and card gradient: a step above the background so the hero terminal doesn't merge into the page. */
   --scrim: oklch(0.21 0.006 285.885);
   --scrim-foreground: oklch(0.985 0 0);
@@ -192,8 +195,9 @@ html[data-intro] {
   * {
     @apply border-border outline-ring/50;
   }
+  /* Text selection disabled site-wide. */
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground select-none;
   }
   /* Always reserve the scrollbar's space so short pages (e.g. /projects) don't lose the scrollbar and shift centered content sideways. */
   html {

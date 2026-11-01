@@ -22,9 +22,16 @@ export type ExperienceItem = {
 export type SiteConfig = {
   name: string;
   role: string;
+  /** Home hero: typed line above the name. */
+  availability: string;
+  /** Home hero: small line below the name, beside the timezone. */
+  location: string;
+  timezone: string;
   tagline: string;
   description: string;
   email: string;
+  /** Hero "Resume" button: PDF path in public/. */
+  resume: string;
   socials: SocialLink[];
   /** Home hero: skills grouped into categories. */
   skillGroups: SkillGroup[];
@@ -35,9 +42,13 @@ export type SiteConfig = {
 export const site: SiteConfig = {
   name: "James Ang",
   role: "Software Developer",
+  availability: "Open to internships & junior roles",
+  location: "Cebu City, PHL",
+  timezone: "GMT+8",
   tagline: "Engineering digital [experiences] from [screen] to [foundation.]",
   description: "I am a 21 year old software developer [studying at the University of San Carlos], specializing in [frontend development] while learning full-stack development. I daily drive [Linux] for system efficiency and workflow customization, I am also proficient in [core system administration] and [terminal operations].",
   email: "angjames2812@gmail.com",
+  resume: "/resume.pdf",
   socials: [
     { platform: "github", label: "GitHub", href: "https://github.com/m4tcha17" },
     { platform: "linkedin", label: "LinkedIn", href: "https://www.linkedin.com/in/james-ang-/" },
