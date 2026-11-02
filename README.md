@@ -40,7 +40,7 @@ Open [http://localhost:3000](http://localhost:3000).
 
 | What                                | Where                         |
 | ----------------------------------- | ----------------------------- |
-| Name, role, tagline, email, socials, skills | `content/site.ts`     |
+| Name, role, description, email, socials, skills | `content/site.ts`     |
 | Projects                            | `content/projects/<slug>.mdx` |
 | Images                              | `public/`                     |
 

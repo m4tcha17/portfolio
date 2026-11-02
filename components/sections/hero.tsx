@@ -7,6 +7,7 @@ import Magnet from "@/components/animations/magnet";
 import { FadeIn } from "@/components/site/fade-in";
 import { HeroOnce } from "@/components/sections/hero-once";
 import { HeroSkills } from "@/components/sections/hero-skills";
+import { HeroDescription } from "@/components/sections/hero-description";
 import { LocalTime } from "@/components/site/local-time";
 import { buttonVariants } from "@/components/ui/button";
 
@@ -52,9 +53,10 @@ export function Hero() {
             </p>
           </FadeIn>
           <FadeIn delay={0.3}>
-            <p className="mt-6 w-fit max-w-3xl text-base leading-snug sm:text-[1.5rem] text-muted-foreground">
-              <Highlight text={site.description} />
-            </p>
+            <HeroDescription
+              summary={<Highlight text={site.description} />}
+              more={<Highlight text={site.descriptionMore} />}
+            />
           </FadeIn>
           <FadeIn delay={0.45}>
             <div className="mt-10 flex flex-wrap gap-3">

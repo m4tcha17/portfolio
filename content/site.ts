@@ -48,8 +48,9 @@ export type SiteConfig = {
   /** Home hero: small line below the name, beside the timezone. */
   location: string;
   timezone: string;
-  tagline: string;
   description: string;
+  /** Home hero: rest of the description, shown by the "More about me" toggle. */
+  descriptionMore: string;
   email: string;
   /** Hero "Resume" button: PDF path in public/. */
   resume: string;
@@ -68,8 +69,8 @@ export const site: SiteConfig = {
   availability: "Open to internships & junior roles",
   location: "Cebu City, PHL",
   timezone: "GMT+8",
-  tagline: "Engineering digital [experiences] from [screen] to [foundation.]",
-  description: "I am a 21 year old software developer [based in the Philippines] and is currently [studying at the University of San Carlos], specializing in [frontend development] while learning full-stack development. I daily drive [Linux] for system efficiency and workflow customization, and I am also familiar in [core system administration] and [terminal operations].",
+  description: "I am a 21 year old [software developer] based in the [Philippines] and is currently studying at the [University of San Carlos], specializing in [frontend development] while learning full-stack development.",
+  descriptionMore: "I daily drive [Linux] for system efficiency and workflow customization, and I am also familiar in [core system administration] and [terminal operations].",
   email: "angjames2812@gmail.com",
   resume: "/resume.pdf",
   socials: [

@@ -22,7 +22,7 @@
 # Scope
 
 - **Home `/`**: single scrolling page with sections Hero, Featured Projects.
-- **Hero**: typed availability line (`site.availability`) with a pulsing green dot (`--available` token, static under `prefers-reduced-motion`), name (the page's h1), a small location · timezone · live local time line (`site.location`, `site.timezone`, `LocalTime` in Asia/Manila), description, two buttons ("View projects", and "Resume" opening `site.resume` (`public/resume.pdf`) in a new tab), then Skills at the bottom: `site.skillGroups` in four categories (Languages, Libraries & Frameworks, Backend & Infrastructure, Environment & Tooling), chips per group.
+- **Hero**: typed availability line (`site.availability`) with a pulsing green dot (`--available` token, static under `prefers-reduced-motion`), name (the page's h1), a small location · timezone · live local time line (`site.location`, `site.timezone`, `LocalTime` in Asia/Manila), description (first sentence `site.description`, the rest `site.descriptionMore` behind a subtle "More about me" / "Show less" text toggle with a caret, `HeroDescription`; opens with a height + fade, instant under `prefers-reduced-motion`), two buttons ("View projects", and "Resume" opening `site.resume` (`public/resume.pdf`) in a new tab), then Skills at the bottom: `site.skillGroups` in four categories (Languages, Libraries & Frameworks, Backend & Infrastructure, Environment & Tooling), chips per group.
 - **Tech chips** (`TechStack`, used in hero Skills, Featured Projects panels, and detail pages): square (no rounding), logo left and name right (text only in Featured Projects panels and detail pages); logos are monochrome Simple Icons mapped in `lib/tech-icons.ts`, names without a logo stay text-only.
 - **Reload**: reloading any page lands on the home page at the top (`ReloadHomeScript`, inline before paint). Direct visits and shared links to other pages still open them.
 - **Text selection**: disabled site-wide (`select-none` on `body`).
@@ -63,7 +63,7 @@
   - `/projects` rows: title and `summary` (no long description).
   - `/projects/[slug]`: long description only (`summary` is used just for the page metadata). `date` and `contribution` (bullet list) are shown only here.
 - `lib/projects.ts` holds the `ProjectMeta` type, `getProjects()` (reads `content/projects/` server-side, sorted by `order`), `getFeaturedProjects()` (featured, first 3) and `getProject(slug)`.
-- `content/site.ts`: typed profile data (name, role, availability, location, timezone, tagline, description, email, resume, socials, skillGroups, education, achievements).
+- `content/site.ts`: typed profile data (name, role, availability, location, timezone, description, descriptionMore, email, resume, socials, skillGroups, education, achievements).
 - Project images live in `public/projects/<slug>.(png|webp)` and render with `next/image`.
 
 ## Structure
@@ -79,7 +79,7 @@ app/
 components/
   ui/                   # shadcn components
   site/                 # header.tsx, nav-link.tsx, footer.tsx, back-to-top.tsx, footer-visibility.tsx, home-link.tsx, back-button.tsx, theme-provider.tsx, theme-toggle.tsx, experience-tabs.tsx, certificate-dialog.tsx, smooth-scroll.tsx, page-transition.tsx, reload-home.tsx, particles-background.tsx, fade-in.tsx, local-time.tsx
-  sections/             # hero.tsx, hero-once.tsx, hero-skills.tsx, featured-projects.tsx
+  sections/             # hero.tsx, hero-once.tsx, hero-skills.tsx, hero-description.tsx, featured-projects.tsx
   projects/             # project-card.tsx, project-row.tsx, tech-stack.tsx
   animations/           # React Bits components (particles.tsx, text-type.tsx, magnet.tsx)
 content/                # site.ts, projects/*.mdx
