@@ -89,7 +89,7 @@ export const site: SiteConfig = {
       degree: "BS Computer Science",
       location: "Talamban, Cebu City",
       period: "2024 – Present",
-      honors: ["Consistent Dean's Lister", "Relevant Coursework: Data Sructures & Algorithms, Algorithms & Complexity, Object-Oriented Programming, ",],
+      honors: ["Consistent Dean's Lister", "Relevant Coursework: Data Structures & Algorithms, Algorithms & Complexity, Object-Oriented Programming, ",],
     },
     {
       school: "Cathedral School of La Naval",
