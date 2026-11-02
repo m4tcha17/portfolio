@@ -79,9 +79,9 @@ export const site: SiteConfig = {
     { platform: "facebook", label: "Facebook", href: "https://www.facebook.com/james.ang.33046/" },
   ],
   skillGroups: [
-    { title: "Languages", items: ["TypeScript", "Javascript", "C"] },
+    { title: "Languages", items: ["TypeScript", "Javascript", "C", "HTML5", "CSS3", "SQL"] },
     { title: "Libraries & Frameworks", items: ["React", "Next.js", "Tailwind CSS", "shadcn/ui", "Expo"] },
-    { title: "Backend & Infrastructure", items: ["Node.js", "Supabase", "PostgreSQL / SQL"] },
+    { title: "Backend & Infrastructure", items: ["Node.js", "Supabase", "MySQL"] },
     { title: "Environment & Tooling", items: ["Linux / Bash", "Git", "Github"] },
   ],
   education: [
