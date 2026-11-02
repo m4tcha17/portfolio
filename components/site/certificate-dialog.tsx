@@ -9,6 +9,10 @@ import { useRef, type ReactNode } from "react";
  * Achievement row that opens its certificate photo in a modal (native <dialog>: focus trap, Esc to close). Clicking
  * the backdrop or the close button also closes it. Page scroll pauses (Lenis) while it is open. Fades/zooms in on
  * open; instant under prefers-reduced-motion.
+ *
+ * The photo is lazy by default and the closed dialog is display:none, so it would only start loading on the first open
+ * (the zoom would play on an empty box, then the photo would pop in). It is preloaded on hover/focus instead, and the
+ * dialog opens once the photo is decoded so the animation always plays with it in place.
  */
 export function CertificateDialog({
   src,
@@ -24,17 +28,39 @@ export function CertificateDialog({
   children: ReactNode;
 }) {
   const dialogRef = useRef<HTMLDialogElement>(null);
+  const imageRef = useRef<HTMLImageElement>(null);
+  const openingRef = useRef(false);
   const lenis = useLenis();
+
+  /** Starts downloading the photo (no-op once loading). */
+  const preload = () => {
+    if (imageRef.current) imageRef.current.loading = "eager";
+  };
+
+  const open = () => {
+    const dialog = dialogRef.current;
+    if (!dialog || dialog.open || openingRef.current) return;
+    openingRef.current = true;
+    preload();
+    const show = () => {
+      openingRef.current = false;
+      dialog.showModal();
+      lenis?.stop();
+    };
+    // decode() resolves once the photo is loaded and decoded; open anyway if it fails.
+    const image = imageRef.current;
+    if (image) image.decode().then(show, show);
+    else show();
+  };
 
   return (
     <>
       <button
         type="button"
         aria-haspopup="dialog"
-        onClick={() => {
-          dialogRef.current?.showModal();
-          lenis?.stop();
-        }}
+        onPointerEnter={preload}
+        onFocus={preload}
+        onClick={open}
         className={className}
       >
         {children}
@@ -52,6 +78,7 @@ export function CertificateDialog({
       >
         <div className="relative">
           <Image
+            ref={imageRef}
             src={src}
             alt={alt}
             width={1600}
