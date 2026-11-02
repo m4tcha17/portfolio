@@ -69,7 +69,7 @@ export const site: SiteConfig = {
   location: "Cebu City, PHL",
   timezone: "GMT+8",
   tagline: "Engineering digital [experiences] from [screen] to [foundation.]",
-  description: "I am a 21 year old software developer [studying at the University of San Carlos], specializing in [frontend development] while learning full-stack development. I daily drive [Linux] for system efficiency and workflow customization, and I am also familiar in [core system administration] and [terminal operations].",
+  description: "I am a 21 year old software developer [based in the Philippines] and is currently [studying at the University of San Carlos], specializing in [frontend development] while learning full-stack development. I daily drive [Linux] for system efficiency and workflow customization, and I am also familiar in [core system administration] and [terminal operations].",
   email: "angjames2812@gmail.com",
   resume: "/resume.pdf",
   socials: [

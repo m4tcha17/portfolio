@@ -26,6 +26,7 @@
 - **Tech chips** (`TechStack`, used in hero Skills, Featured Projects panels, and detail pages): square (no rounding), logo left and name right (text only in Featured Projects panels and detail pages); logos are monochrome Simple Icons mapped in `lib/tech-icons.ts`, names without a logo stay text-only.
 - **Reload**: reloading any page lands on the home page at the top (`ReloadHomeScript`, inline before paint). Direct visits and shared links to other pages still open them.
 - **Text selection**: disabled site-wide (`select-none` on `body`).
+- **Scrollbar**: thin (8px), square thumb in `--muted-foreground` at 40% on a transparent track, `--primary` on hover/drag (CSS only, `app/globals.css`; Firefox gets `scrollbar-width: thin` + `scrollbar-color`, no hover state). Gutter always reserved (`scrollbar-gutter: stable`).
 - **First screen**: Hero fills the viewport (below the mobile top bar); Featured Projects starts below the fold.
 - **Touch**: `hover:` styles apply while pressed and held on touch screens (overridden `hover` variant in `app/globals.css`); the hero Magnet follows a held finger.
 - **Motion**: no scroll-triggered animations. Above-the-fold content fades in on load (`FadeIn`, CSS only). No GSAP or other animation library (Lenis for smooth scroll is the one exception). Kept simple and recruiter friendly.

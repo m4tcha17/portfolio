@@ -298,4 +298,29 @@ html:not(.theme-reveal) .vt-edge-blur {
     @apply font-sans;
     scrollbar-gutter: stable;
   }
+
+  /* Thin square scrollbar: muted thumb on a transparent track, primary on hover/drag. Chromium and Safari use the
+     ::-webkit-scrollbar rules (they allow the hover state); Firefox has no such pseudo-elements, so it gets the
+     standard properties instead. Chromium would ignore the webkit rules if scrollbar-color were set, hence @supports. */
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+  ::-webkit-scrollbar-track,
+  ::-webkit-scrollbar-corner {
+    background: transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: color-mix(in oklch, var(--muted-foreground) 40%, transparent);
+  }
+  ::-webkit-scrollbar-thumb:hover,
+  ::-webkit-scrollbar-thumb:active {
+    background: var(--primary);
+  }
+  @supports not selector(::-webkit-scrollbar) {
+    * {
+      scrollbar-width: thin;
+      scrollbar-color: color-mix(in oklch, var(--muted-foreground) 40%, transparent) transparent;
+    }
+  }
 }
